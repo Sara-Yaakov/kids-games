@@ -11,7 +11,14 @@ import { INSTRUMENTS, Instrument } from './instruments.data';
 const ROUNDS = 10;
 const BALLOONS = 4;
 const EAR_ROUND_EVERY = 3;
-const BALLOON_COLORS = ['#ff4fa3', '#3ec5ff', '#ffd23f', '#22e3a0', '#ff8a2b', '#a78bfa'];
+const BALLOON_COLORS = [
+  'var(--color-teal)',
+  'var(--color-orange)',
+  'var(--color-magenta)',
+  'var(--color-card)',
+  'var(--color-teal-soft)',
+  'var(--color-orange-soft)',
+];
 
 interface Round {
   target: Instrument;

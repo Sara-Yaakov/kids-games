@@ -1,6 +1,7 @@
 <app-game-hud
   title="מסע סביב העולם"
   emoji="🌍"
+  tone="teal"
   progressLabel="מסע {{ roundIndex() + 1 }} מתוך 3"
   [score]="session.score()"
   [streak]="session.streak()"
@@ -22,9 +23,9 @@
     (playAgain)="start()"
   />
 } @else {
-  <p class="mt-6 text-center text-2xl font-semibold text-white drop-shadow">
-    גררו כל מדינה ליבשת שלה ✈️
-    <span class="block text-lg font-medium text-white/80">או לחצו על מדינה ואז על היבשת</span>
+  <p class="mt-8 flex flex-wrap items-center justify-center gap-2 text-center text-xl font-semibold">
+    <span class="sticker bg-teal text-card">איך משחקים?</span>
+    גוררים כל מדינה ליבשת שלה, או לוחצים על מדינה ואז על יבשת
   </p>
 
   <div cdkDropListGroup>
@@ -32,7 +33,7 @@
       cdkDropList
       cdkDropListOrientation="mixed"
       cdkDropListSortingDisabled
-      class="card-glass mt-4 flex min-h-32 flex-wrap items-center justify-center gap-3 p-4"
+      class="mt-6 flex min-h-28 flex-wrap items-center justify-center gap-4 rounded-[18px] border-[3px] border-dashed border-ink/50 p-5"
       aria-label="מדינות לגרירה"
     >
       @for (country of tray(); track country.code; let i = $index) {
@@ -40,41 +41,47 @@
           type="button"
           cdkDrag
           [cdkDragData]="country"
-          class="country-card flex animate-pop-in cursor-grab items-center gap-3 rounded-2xl border-b-[6px] border-grape/40 bg-white px-4 py-3 shadow-lg transition-transform hover:-translate-y-1 active:cursor-grabbing"
-          [class.selected]="selected()?.code === country.code"
-          [style.animation-delay.ms]="i * 80"
+          class="country btn animate-pop-in cursor-grab gap-3 px-4 py-2.5 active:cursor-grabbing"
+          [class]="selected()?.code === country.code ? 'btn-orange -translate-y-1 shadow-ink' : 'btn-paper'"
+          [style.animation-delay.ms]="i * 70"
           [attr.aria-pressed]="selected()?.code === country.code"
           (click)="select(country)"
         >
           <span class="emoji text-5xl">{{ flag(country.code) }}</span>
-          <span class="text-2xl font-bold">{{ country.name }}</span>
-          <div *cdkDragPlaceholder class="h-16 w-40 rounded-2xl border-4 border-dashed border-grape/30"></div>
+          <span class="text-2xl">{{ country.name }}</span>
+          <div *cdkDragPlaceholder class="h-16 w-40 rounded-xl border-[3px] border-dashed border-ink/40"></div>
         </button>
       }
     </section>
 
-    <section class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3" aria-label="יבשות">
+    <section class="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-3" aria-label="יבשות">
       @for (continent of continents; track continent.id; let i = $index) {
         <div
           cdkDropList
           [cdkDropListData]="continent.id"
           (cdkDropListDropped)="dropped($event)"
-          class="continent-zone relative flex min-h-40 animate-pop-in cursor-pointer flex-col items-center rounded-[2rem] border-4 border-white/70 p-4 text-white shadow-xl transition-all"
+          class="continent panel relative flex min-h-40 animate-pop-in cursor-pointer flex-col items-center p-4 transition-[translate,box-shadow]"
           [class]="continent.color"
           [class.animate-shake]="wrongZone() === continent.id"
           [class.ready]="!!selected()"
-          [style.animation-delay.ms]="200 + i * 80"
+          [style.animation-delay.ms]="200 + i * 70"
           role="button"
           tabindex="0"
           [attr.aria-label]="'יבשת ' + continent.name"
           (click)="zoneClicked(continent, $any($event.currentTarget))"
           (keydown.enter)="zoneClicked(continent, $any($event.currentTarget))"
         >
-          <span class="emoji text-5xl drop-shadow">{{ continent.emoji }}</span>
-          <h2 class="text-outline mt-1 text-2xl font-bold sm:text-3xl">{{ continent.name }}</h2>
-          <div class="mt-2 flex flex-wrap justify-center gap-1">
+          <div class="flex items-center gap-3">
+            <span class="emoji text-5xl">{{ continent.emoji }}</span>
+            <h2 class="display text-5xl sm:text-6xl">{{ continent.name }}</h2>
+          </div>
+          <div
+            class="mt-3 flex min-h-16 w-full flex-1 flex-wrap items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-current/40 p-2"
+          >
             @for (country of placed()[continent.id]; track country.code) {
-              <span class="emoji animate-pop-in text-4xl drop-shadow" [title]="country.name">{{ flag(country.code) }}</span>
+              <span class="emoji animate-pop-in text-4xl" [title]="country.name">{{ flag(country.code) }}</span>
+            } @empty {
+              <span class="text-sm font-semibold opacity-70">גוררים לכאן</span>
             }
           </div>
         </div>

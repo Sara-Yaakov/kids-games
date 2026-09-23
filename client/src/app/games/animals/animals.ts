@@ -10,7 +10,7 @@ import { ANIMALS, Animal } from './animals.data';
 
 const ROUNDS = 3;
 const PAIRS_PER_ROUND = 4;
-const CARD_COLORS = ['bg-sunny/60', 'bg-sky/50', 'bg-bubblegum/40', 'bg-mint/50'];
+const CARD_COLORS = ['bg-orange-soft', 'bg-teal-soft', 'bg-magenta-soft', 'bg-card'];
 
 @Component({
   selector: 'app-animals',

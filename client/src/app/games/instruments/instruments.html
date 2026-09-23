@@ -1,6 +1,7 @@
 <app-game-hud
   title="בלונים מוזיקליים"
   emoji="🎸"
+  tone="magenta"
   progressLabel="בלון {{ index() + 1 }} מתוך {{ total }}"
   [score]="session.score()"
   [streak]="session.streak()"
@@ -24,24 +25,20 @@
 } @else {
   @let r = round();
   @for (i of [index()]; track i) {
-    <section class="mt-6 flex animate-pop-in flex-col items-center gap-3 text-center">
+    <section class="mt-10 flex animate-pop-in flex-col items-center gap-4 text-center">
       @if (r.byEar) {
-        <span class="rounded-full bg-tangerine px-4 py-1 text-lg font-bold text-white">👂 אתגר האוזן!</span>
-        <h2 class="text-outline text-3xl font-bold text-white sm:text-5xl">איזה כלי מנגן עכשיו?</h2>
-        <button type="button" class="btn-3d border-berry bg-bubblegum text-white" (click)="announce()">
-          🔊 נגנו לי שוב
-        </button>
+        <span class="sticker bg-orange text-base">אתגר האוזן 👂</span>
+        <h2 class="display text-6xl sm:text-8xl">איזה כלי <span class="text-magenta">מנגן</span> עכשיו?</h2>
+        <button type="button" class="btn btn-magenta" (click)="announce()">🔊 לשמוע שוב</button>
       } @else {
-        <h2 class="text-outline text-3xl font-bold text-white sm:text-5xl">
-          פוצצו את ה<span class="text-sunny">{{ r.target.name }}</span>!
+        <h2 class="display text-6xl sm:text-8xl">
+          פוצצו את ה<span class="target">{{ r.target.name }}</span>
         </h2>
-        <button type="button" class="btn-3d border-grape bg-white text-grape" (click)="hear(r.target)">
-          🎵 איך {{ r.target.name }} נשמע?
-        </button>
+        <button type="button" class="btn btn-paper" (click)="hear(r.target)">🎵 איך {{ r.target.name }} נשמע?</button>
       }
     </section>
 
-    <section class="stage relative mt-4 grid grid-cols-2 place-items-end gap-4 sm:grid-cols-4" aria-label="בלונים">
+    <section class="stage relative mt-6 grid grid-cols-2 place-items-end gap-4 sm:grid-cols-4" aria-label="בלונים">
       @for (b of balloons(); track b.instrument.id) {
         @let id = b.instrument.id;
         <button
@@ -55,11 +52,13 @@
           (click)="pop(b, $any($event.currentTarget))"
         >
           <span class="balloon" [style.--c]="b.color">
-            <span class="emoji text-6xl drop-shadow sm:text-7xl">{{ b.instrument.emoji }}</span>
+            <span class="emoji text-7xl sm:text-8xl">{{ b.instrument.emoji }}</span>
           </span>
-          <span class="string"></span>
+          <svg class="string" viewBox="0 0 20 80" aria-hidden="true">
+            <path d="M10 0 C 2 20, 18 40, 10 60 S 6 75, 10 80" />
+          </svg>
           @if (popped() === id || deflated().has(id)) {
-            <span class="label animate-pop-in">{{ b.instrument.name }}</span>
+            <span class="sticker label animate-pop-in bg-card text-xl">{{ b.instrument.name }}</span>
           }
         </button>
       }

@@ -2,53 +2,75 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, ou
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { FxService } from '../../core/fx.service';
+import { TONES, gameById } from '../../core/games';
 import { GameId } from '../../core/models';
 import { praise } from '../../core/praise';
 import { SoundService } from '../../core/sound.service';
 
 type SaveState = 'saving' | 'saved' | 'error';
 
+/** Earned "stars" are the three brand shapes. */
+const SHAPES = [
+  { d: 'M32 6a26 26 0 1 1 0 52a26 26 0 1 1 0-52z', fill: 'var(--color-teal)' },
+  { d: 'M6 6h52v52A52 52 0 0 1 6 6z', fill: 'var(--color-orange)' },
+  { d: 'M32 6l27 52H5z', fill: 'var(--color-magenta)' },
+];
+
 @Component({
   selector: 'app-game-over',
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="card-glass mx-auto mt-6 max-w-lg animate-pop-in p-8 text-center">
-      <div class="emoji animate-bounce-soft text-8xl">🏆</div>
-      <h2 class="mt-2 text-4xl font-bold">{{ headline() }}</h2>
-
-      <div class="my-5 flex justify-center gap-2 text-6xl" [attr.aria-label]="stars() + ' כוכבים מתוך 3'">
-        @for (i of [0, 1, 2]; track i) {
-          <span
-            class="emoji animate-pop-in"
-            [class.grayscale]="i >= stars()"
-            [class.opacity-30]="i >= stars()"
-            [style.animation-delay.ms]="300 + i * 250"
-            >⭐</span
-          >
-        }
+    <section class="panel mx-auto mt-8 max-w-xl animate-pop-in overflow-hidden bg-card text-center">
+      <div class="border-b-[3px] border-ink px-6 pt-8 pb-6" [class]="tone().solid + ' ' + tone().onSolid">
+        <span class="sticker bg-card text-ink">סוף המשחק</span>
+        <h2 class="display mt-4 text-6xl sm:text-7xl">{{ headline() }}</h2>
       </div>
 
-      <p class="text-2xl">
-        צברתם <strong class="text-4xl text-grape">{{ score() }}</strong> נקודות!
-      </p>
-      <p class="mt-1 text-lg text-ink/60">דיוק: {{ accuracy() }}%</p>
+      <div class="px-6 py-8">
+        <div class="flex justify-center gap-5" role="img" [attr.aria-label]="stars() + ' כוכבים מתוך 3'">
+          @for (s of shapes; track $index) {
+            <svg viewBox="0 0 64 64" class="size-16 animate-pop-in sm:size-20" [style.animation-delay.ms]="250 + $index * 220">
+              <path
+                [attr.d]="s.d"
+                [attr.fill]="$index < stars() ? s.fill : 'var(--color-paper-deep)'"
+                stroke="var(--color-ink)"
+                stroke-width="3.5"
+                stroke-linejoin="round"
+                [attr.stroke-dasharray]="$index < stars() ? null : '6 5'"
+              />
+            </svg>
+          }
+        </div>
 
-      <p class="mt-3 h-6 text-base font-semibold" aria-live="polite">
-        @switch (saveState()) {
-          @case ('saving') { שומרים את הנקודות... ⏳ }
-          @case ('saved') { <span class="text-emerald-600">הנקודות נשמרו! ✅</span> }
-          @case ('error') { <span class="text-berry">לא הצלחנו לשמור הפעם 😕</span> }
-        }
-      </p>
+        <div class="mt-8 flex items-center justify-center gap-10">
+          <div>
+            <div class="display text-8xl">{{ score() }}</div>
+            <div class="font-semibold">נקודות</div>
+          </div>
+          <div class="h-16 border-e-[3px] border-dashed border-ink/40"></div>
+          <div>
+            <div class="display text-8xl">{{ accuracy() }}%</div>
+            <div class="font-semibold">דיוק</div>
+          </div>
+        </div>
 
-      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-        <button type="button" class="btn-3d flex-1 border-emerald-700 bg-mint text-ink" (click)="playAgain.emit()">
-          🔄 עוד סיבוב!
-        </button>
-        <a routerLink="/" class="btn-3d flex-1 border-grape bg-white text-grape">🏠 לכל המשחקים</a>
+        <p class="mt-6 h-6 text-sm font-semibold" aria-live="polite">
+          @switch (saveState()) {
+            @case ('saving') { שומרים את הנקודות... }
+            @case ('saved') { <span class="text-teal-deep">✓ הנקודות נשמרו</span> }
+            @case ('error') { <span class="text-magenta">לא הצלחנו לשמור הפעם</span> }
+          }
+        </p>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <button type="button" class="btn flex-1 py-4 text-xl" [class]="tone().btn" (click)="playAgain.emit()">
+            עוד סיבוב
+          </button>
+          <a routerLink="/" class="btn btn-paper flex-1 py-4 text-xl">לכל המשחקים</a>
+        </div>
       </div>
-    </div>
+    </section>
   `,
 })
 export class GameOver implements OnInit {
@@ -61,7 +83,9 @@ export class GameOver implements OnInit {
   readonly accuracy = input.required<number>();
   readonly playAgain = output();
 
+  protected readonly shapes = SHAPES;
   protected readonly saveState = signal<SaveState>('saving');
+  protected readonly tone = computed(() => TONES[gameById(this.game()).tone]);
   protected readonly stars = computed(() => (this.accuracy() >= 90 ? 3 : this.accuracy() >= 65 ? 2 : 1));
   protected readonly headline = computed(() => praise.final(this.accuracy()));
 
