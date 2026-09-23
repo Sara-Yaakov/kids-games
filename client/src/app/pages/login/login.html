@@ -1,0 +1,76 @@
+<section class="mx-auto mt-6 max-w-md animate-pop-in">
+  <div class="mb-6 text-center">
+    <div class="emoji mb-2 animate-bounce-soft text-8xl">🦄</div>
+    <h1 class="text-outline text-4xl font-bold text-white sm:text-5xl">
+      {{ mode() === 'login' ? 'איזה כיף שחזרתם!' : 'יוצאים להרפתקה!' }}
+    </h1>
+    <p class="mt-2 text-xl font-medium text-white/90">
+      {{ mode() === 'login' ? 'היכנסו כדי להמשיך לצבור נקודות' : 'בחרו שם גיבור וסיסמה סודית' }}
+    </p>
+  </div>
+
+  <div class="card-glass p-6 sm:p-8" [class.animate-shake]="shake()">
+    <div class="mb-6 grid grid-cols-2 gap-2 rounded-2xl bg-grape/10 p-1.5" role="tablist">
+      @for (tab of tabs; track tab.id) {
+        <button
+          type="button"
+          role="tab"
+          class="rounded-xl py-2 text-lg font-bold transition-all"
+          [class]="mode() === tab.id ? 'bg-grape text-white shadow-lg' : 'text-grape hover:bg-white/60'"
+          [attr.aria-selected]="mode() === tab.id"
+          (click)="setMode(tab.id)"
+        >
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+
+    <form class="flex flex-col gap-4" (ngSubmit)="submit()">
+      <label class="flex flex-col gap-1">
+        <span class="text-lg font-semibold">😎 שם משתמש</span>
+        <input
+          name="username"
+          autocomplete="username"
+          required
+          maxlength="20"
+          class="rounded-2xl border-3 border-grape/30 bg-white px-4 py-3 text-xl outline-none transition focus:border-bubblegum focus:ring-4 focus:ring-bubblegum/30"
+          [ngModel]="username()"
+          (ngModelChange)="username.set($event)"
+        />
+      </label>
+
+      <label class="flex flex-col gap-1">
+        <span class="text-lg font-semibold">🔑 סיסמה</span>
+        <input
+          name="password"
+          type="password"
+          required
+          [attr.autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'"
+          class="rounded-2xl border-3 border-grape/30 bg-white px-4 py-3 text-xl outline-none transition focus:border-bubblegum focus:ring-4 focus:ring-bubblegum/30"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+        />
+      </label>
+
+      @if (error()) {
+        <p class="animate-pop-in rounded-xl bg-berry/10 px-4 py-2 text-center font-semibold text-berry" role="alert">
+          {{ error() }}
+        </p>
+      }
+
+      <button
+        type="submit"
+        class="btn-3d mt-2 border-berry bg-bubblegum text-2xl text-white"
+        [disabled]="loading() || !username() || !password()"
+      >
+        @if (loading()) {
+          רגע...
+        } @else if (mode() === 'login') {
+          יאללה, נכנסים! 🚀
+        } @else {
+          יוצרים גיבור! ✨
+        }
+      </button>
+    </form>
+  </div>
+</section>
