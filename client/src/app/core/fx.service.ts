@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import confetti from 'canvas-confetti';
 
-const COLORS = ['#ff4fa3', '#ffd23f', '#22e3a0', '#3ec5ff', '#ff8a2b', '#7c3aed'];
+const COLORS = ['#22907e', '#f07014', '#9c1574', '#1d2744', '#fff3e3'];
 
 @Injectable({ providedIn: 'root' })
 export class FxService {

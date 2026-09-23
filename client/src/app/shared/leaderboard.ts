@@ -2,29 +2,41 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AuthService } from '../core/auth.service';
 
+const PODIUM = ['bg-orange text-ink', 'bg-teal text-card', 'bg-magenta text-card'];
+
 @Component({
   selector: 'app-leaderboard',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="card-glass mx-auto max-w-xl p-6">
-      <h2 class="mb-4 text-center text-3xl font-bold">🏆 היכל התהילה</h2>
+    <section class="panel mx-auto max-w-2xl overflow-hidden bg-card">
+      <header class="flex items-center justify-between border-b-[3px] border-ink bg-ink px-6 py-4 text-paper">
+        <h2 class="display text-5xl">היכל התהילה</h2>
+        <span class="emoji text-4xl" aria-hidden="true">🏆</span>
+      </header>
+
       @if (board.hasValue() && board.value().length) {
-        <ol class="flex flex-col gap-2">
+        <ol class="divide-y-2 divide-dashed divide-ink/30">
           @for (row of board.value(); track row.username; let i = $index) {
-            <li
-              class="flex items-center gap-3 rounded-2xl px-4 py-2 text-xl"
-              [class]="row.username === auth.user()?.username ? 'bg-sunny/50 font-bold' : 'bg-grape/5'"
-            >
-              <span class="emoji w-8 text-center text-2xl">{{ medals[i] ?? i + 1 }}</span>
-              <span class="flex-1 truncate">{{ row.username }}</span>
-              <span class="font-bold text-grape">{{ row.total }} ⭐</span>
+            <li class="flex items-center gap-4 px-6 py-3" [class.bg-orange-soft]="row.username === auth.user()?.username">
+              <span
+                class="display grid size-11 shrink-0 place-items-center rounded-full border-[3px] border-ink text-3xl"
+                [class]="podium[i] ?? 'bg-card'"
+                >{{ i + 1 }}</span
+              >
+              <span class="flex-1 truncate text-xl font-semibold">
+                {{ row.username }}
+                @if (row.username === auth.user()?.username) {
+                  <span class="sticker ms-2 bg-card text-xs">זה אני</span>
+                }
+              </span>
+              <span class="display text-4xl">{{ row.total }}</span>
             </li>
           }
         </ol>
       } @else if (board.isLoading()) {
-        <p class="text-center text-lg">טוען אלופים... ⏳</p>
+        <p class="px-6 py-8 text-center text-lg">טוענים את האלופים...</p>
       } @else {
-        <p class="text-center text-lg">עוד אין אלופים. אולי זה יהיה אתם? 😉</p>
+        <p class="px-6 py-8 text-center text-lg">הטבלה עוד ריקה. המקום הראשון מחכה לכם.</p>
       }
     </section>
   `,
@@ -32,5 +44,5 @@ import { AuthService } from '../core/auth.service';
 export class Leaderboard {
   protected readonly auth = inject(AuthService);
   protected readonly board = rxResource({ stream: () => this.auth.leaderboard() });
-  protected readonly medals = ['🥇', '🥈', '🥉'];
+  protected readonly podium = PODIUM;
 }

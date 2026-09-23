@@ -1,45 +1,53 @@
-<app-floating-bg />
+<header class="sticky top-0 z-40 border-b-[3px] border-ink bg-paper/95 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5">
+    <a routerLink="/" class="group flex items-center gap-2.5" (click)="sound.click()">
+      <app-logo [size]="36" class="shrink-0 transition-transform duration-300 group-hover:rotate-12" />
+      <span class="display text-3xl whitespace-nowrap sm:text-5xl">עולם החכמים</span>
+    </a>
 
-<header class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 pt-4">
-  <a routerLink="/" class="group flex items-center gap-2" (click)="sound.click()">
-    <span class="emoji text-4xl transition-transform group-hover:animate-wiggle sm:text-5xl">🧠</span>
-    <span class="text-outline whitespace-nowrap text-xl font-bold text-sunny sm:text-4xl">עולם החכמים</span>
-  </a>
-
-  <div class="flex items-center gap-2">
-    @if (auth.user(); as user) {
-      <div
-        class="flex items-center gap-2 rounded-2xl border-b-[6px] border-tangerine bg-sunny px-3 py-2 text-lg font-bold sm:text-xl"
-        title="סך כל הנקודות"
-      >
-        <span class="emoji animate-bounce-soft">⭐</span>
-        <span>{{ user.total }}</span>
-        <span class="hidden max-w-32 truncate border-s-2 border-ink/20 ps-2 font-medium sm:inline">{{ user.username }}</span>
-      </div>
+    <nav class="flex shrink-0 items-center gap-1.5 sm:gap-2" aria-label="חשבון">
+      @if (auth.user(); as user) {
+        <div
+          class="flex items-center gap-1.5 rounded-xl border-[3px] border-ink bg-orange px-2 py-1 shadow-ink-sm sm:gap-2 sm:px-3"
+          title="סך כל הנקודות"
+        >
+          <span class="emoji text-2xl">⭐</span>
+          <span class="display text-3xl">{{ user.total }}</span>
+          <span class="hidden max-w-32 truncate border-s-2 border-ink/30 ps-2 font-semibold sm:inline">
+            {{ user.username }}
+          </span>
+        </div>
+        <button type="button" class="btn btn-paper size-11 p-0 text-base sm:w-auto sm:px-3" aria-label="יציאה" (click)="auth.logout()">
+          <span class="emoji text-2xl sm:hidden" aria-hidden="true">🚪</span>
+          <span class="hidden sm:inline">יציאה</span>
+        </button>
+      } @else {
+        <a routerLink="/login" class="btn btn-paper px-4 py-1.5 text-base" (click)="sound.click()">כניסה</a>
+      }
       <button
         type="button"
-        class="btn-3d border-grape/60 bg-white px-3 py-2 text-lg"
-        aria-label="יציאה"
-        (click)="auth.logout()"
+        class="btn btn-paper size-11 p-0"
+        [attr.aria-label]="sound.muted() ? 'הפעלת צלילים' : 'השתקת צלילים'"
+        [attr.aria-pressed]="sound.muted()"
+        (click)="sound.toggleMute()"
       >
-        <span class="emoji">🚪</span>
+        <span class="emoji text-2xl">{{ sound.muted() ? '🔇' : '🔊' }}</span>
       </button>
-    } @else {
-      <a routerLink="/login" class="btn-3d border-tangerine bg-sunny px-4 py-2 text-lg" (click)="sound.click()">
-        כניסה 🔑
-      </a>
-    }
-    <button
-      type="button"
-      class="btn-3d border-grape/60 bg-white px-3 py-2 text-2xl"
-      [attr.aria-label]="sound.muted() ? 'הפעלת צלילים' : 'השתקת צלילים'"
-      (click)="sound.toggleMute()"
-    >
-      <span class="emoji">{{ sound.muted() ? '🔇' : '🔊' }}</span>
-    </button>
+    </nav>
   </div>
 </header>
 
-<main class="mx-auto max-w-6xl px-4 pt-6 pb-16">
+<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8 pb-16">
   <router-outlet />
 </main>
+
+<footer class="border-t-[3px] border-ink bg-paper-deep">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-sm">
+    <span class="flex items-center gap-2 font-semibold"><app-logo [size]="22" /> עולם החכמים</span>
+    <span>
+      איורים:
+      <a class="underline decoration-2 underline-offset-2" href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a>
+      (CC BY-SA 4.0)
+    </span>
+  </div>
+</footer>
