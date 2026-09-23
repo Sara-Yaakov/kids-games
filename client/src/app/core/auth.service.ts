@@ -46,7 +46,7 @@ export class AuthService {
     storage.remove(TOKEN_KEY);
     this.token.set(null);
     this.user.set(null);
-    void this.router.navigate(['/login']);
+    void this.router.navigate(['/']);
   }
 
   private setSession({ token, user }: AuthResponse) {
