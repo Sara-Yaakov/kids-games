@@ -7,7 +7,7 @@ import { loadDb } from './db.js';
 import { api } from './routes.js';
 
 const PORT = process.env.PORT ?? 3000;
-const CLIENT_DIST = resolve(dirname(fileURLToPath(import.meta.url)), '../../client/dist/client/browser');
+const CLIENT_DIST = resolve(dirname(fileURLToPath(import.meta.url)), '../../client/dist/kids-games/browser');
 
 const app = express();
 app.use(helmet({ contentSecurityPolicy: false }));
