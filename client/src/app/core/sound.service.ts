@@ -6,12 +6,11 @@ export type InstrumentVoice =
   | 'guitar'
   | 'violin'
   | 'drum'
+  | 'darbuka'
   | 'trumpet'
   | 'flute'
   | 'saxophone'
-  | 'xylophone'
   | 'bell'
-  | 'harp'
   | 'accordion'
   | 'maracas'
   | 'banjo';
@@ -110,9 +109,6 @@ export class SoundService {
         case 'banjo':
           [NOTE.G4, NOTE.C5, NOTE.E5, NOTE.G5, NOTE.E5].forEach((f, i) => this.pluck(f, t + i * 0.1, 0.5, 0.985));
           break;
-        case 'harp':
-          [NOTE.C4, NOTE.E4, NOTE.G4, NOTE.C5, NOTE.E5, NOTE.G5].forEach((f, i) => this.pluck(f, t + i * 0.08, 1.5, 0.997));
-          break;
         case 'violin':
           this.bowed(NOTE.A4, t, 1.2, 'sawtooth', 2500);
           break;
@@ -130,14 +126,11 @@ export class SoundService {
           this.bowed(NOTE.C6 / 1.5, t, 1, 'sine', 5000);
           this.noise(t, 1, 0.03, 3000, 3);
           break;
-        case 'xylophone':
-          [NOTE.C5, NOTE.E5, NOTE.G5, NOTE.C6].forEach((f, i) => {
-            this.tone(f, t + i * 0.12, 0.35, 'sine', 0.35);
-            this.tone(f * 4, t + i * 0.12, 0.05, 'sine', 0.1);
-          });
-          break;
         case 'bell':
           [1, 2.76, 5.4].forEach((m, i) => this.tone(NOTE.G5 * m, t, 2 - i * 0.5, 'sine', 0.2 / (i + 1)));
+          break;
+        case 'darbuka':
+          [0, 0.3, 0.45].forEach((d, i) => (i ? this.noise(t + d, 0.09, 0.5, 3500, 2) : this.kick(ac, t + d)));
           break;
         case 'drum':
           [0, 0.25, 0.5, 0.62].forEach((d) => this.kick(ac, t + d));
@@ -219,7 +212,7 @@ export class SoundService {
     src.start(t);
   }
 
-  /** Sustained tone with vibrato — violin, sax, flute, accordion. */
+  /** Sustained tone with vibrato: violin, sax, flute, accordion. */
   private bowed(freq: number, t: number, dur: number, type: OscillatorType, cutoff: number, detune = 1) {
     const ac = this.ctx!;
     const osc = ac.createOscillator();
