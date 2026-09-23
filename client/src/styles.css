@@ -9,9 +9,9 @@
 }
 
 @theme {
-  --font-sans: 'IBM Plex Sans Hebrew', 'OpenMoji', system-ui, sans-serif;
-  --font-display: 'Karantina', 'IBM Plex Sans Hebrew', 'OpenMoji', sans-serif;
-  --font-hand: 'Playpen Sans Hebrew', 'IBM Plex Sans Hebrew', sans-serif;
+  --font-sans: 'Rubik', 'OpenMoji', system-ui, sans-serif;
+  --font-display: 'Karantina', 'Rubik', 'OpenMoji', sans-serif;
+  --font-hand: 'Playpen Sans Hebrew', 'Rubik', sans-serif;
   --font-emoji: 'OpenMoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
 
   --color-ink: #1d2744;
