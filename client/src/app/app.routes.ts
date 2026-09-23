@@ -22,6 +22,11 @@ export const routes: Routes = [
         title: 'ספארי השמות | עולם החכמים',
         loadComponent: () => import('./games/animals/animals').then((m) => m.Animals),
       },
+      {
+        path: 'games/instruments',
+        title: 'בלונים מוזיקליים | עולם החכמים',
+        loadComponent: () => import('./games/instruments/instruments').then((m) => m.Instruments),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
