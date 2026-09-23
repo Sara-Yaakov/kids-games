@@ -26,7 +26,7 @@ const PODIUM = ['bg-orange text-ink', 'bg-teal text-card', 'bg-magenta text-card
               <span class="flex-1 truncate text-xl font-semibold">
                 {{ row.username }}
                 @if (row.username === auth.user()?.username) {
-                  <span class="sticker ms-2 bg-card text-xs">זה אני</span>
+                  <span class="sticker ms-2 bg-card text-xs">אני</span>
                 }
               </span>
               <span class="display text-4xl">{{ row.total }}</span>
@@ -34,9 +34,9 @@ const PODIUM = ['bg-orange text-ink', 'bg-teal text-card', 'bg-magenta text-card
           }
         </ol>
       } @else if (board.isLoading()) {
-        <p class="px-6 py-8 text-center text-lg">טוענים את האלופים...</p>
+        <p class="px-6 py-8 text-center text-lg">טוען את הטבלה...</p>
       } @else {
-        <p class="px-6 py-8 text-center text-lg">הטבלה עוד ריקה. המקום הראשון מחכה לכם.</p>
+        <p class="px-6 py-8 text-center text-lg">עדיין אין כאן שמות. המשחק הראשון שלכם יכניס אתכם לטבלה.</p>
       }
     </section>
   `,

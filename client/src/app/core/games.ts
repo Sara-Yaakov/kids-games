@@ -24,11 +24,11 @@ export const GAMES: GameInfo[] = [
     id: 'instruments',
     number: '02',
     title: 'בלונים מוזיקליים',
-    tagline: 'מפוצצים את הבלון עם הכלי הנכון',
+    tagline: 'מזהים כלי נגינה לפי המראה והצליל',
     emoji: '🎸',
     tone: 'magenta',
   },
-  { id: 'countries', number: '03', title: 'מסע סביב העולם', tagline: 'גוררים כל מדינה ליבשת שלה', emoji: '🌍', tone: 'teal' },
+  { id: 'countries', number: '03', title: 'מסע סביב העולם', tagline: 'מתאימים כל מדינה ליבשת שלה', emoji: '🌍', tone: 'teal' },
 ];
 
 export const gameById = (id: GameId) => GAMES.find((g) => g.id === id)!;

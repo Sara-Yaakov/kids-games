@@ -20,9 +20,9 @@ export class Landing {
   protected readonly games = GAMES;
 
   protected readonly stats = [
-    { value: ANIMALS.length, label: 'חיות לזהות', tone: TONES.orange.text },
-    { value: INSTRUMENTS.length, label: 'כלי נגינה לשמוע', tone: TONES.magenta.text },
-    { value: COUNTRIES.length, label: 'מדינות למפות', tone: TONES.teal.text },
+    { value: ANIMALS.length, label: 'חיות', tone: TONES.orange.text },
+    { value: INSTRUMENTS.length, label: 'כלי נגינה', tone: TONES.magenta.text },
+    { value: COUNTRIES.length, label: 'מדינות ודגלים', tone: TONES.teal.text },
   ];
 
   protected readonly previews: Record<string, string[]> = {
@@ -32,8 +32,11 @@ export class Landing {
   };
 
   protected readonly steps = [
-    { title: 'בוחרים שם גיבור', text: 'שם משתמש וסיסמה, וזהו. בלי מייל ובלי תשלום.' },
-    { title: 'משחקים ולומדים', text: 'חיות, כלי נגינה ומדינות, עם צלילים וזיקוקים.' },
-    { title: 'צוברים נקודות', text: 'רצף של תשובות נכונות שווה בונוס. מי יגיע לראש הטבלה?' },
+    { title: 'נרשמים', text: 'בוחרים שם משתמש וסיסמה. זה כל מה שצריך.' },
+    { title: 'בוחרים משחק', text: 'כל משחק מלמד נושא אחר: חיות, כלי נגינה או מדינות.' },
+    {
+      title: 'צוברים נקודות',
+      text: 'תשובה נכונה בניסיון הראשון שווה 10 נקודות, ושלוש תשובות נכונות ברצף מוסיפות בונוס.',
+    },
   ];
 }
