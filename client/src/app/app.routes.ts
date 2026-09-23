@@ -17,6 +17,11 @@ export const routes: Routes = [
         title: 'עולם החכמים',
         loadComponent: () => import('./pages/home/home').then((m) => m.Home),
       },
+      {
+        path: 'games/animals',
+        title: 'ספארי השמות | עולם החכמים',
+        loadComponent: () => import('./games/animals/animals').then((m) => m.Animals),
+      },
     ],
   },
   { path: '**', redirectTo: '' },

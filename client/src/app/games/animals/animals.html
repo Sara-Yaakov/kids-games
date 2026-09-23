@@ -1,0 +1,77 @@
+<app-game-hud
+  title="ספארי השמות"
+  emoji="🦁"
+  progressLabel="סיבוב {{ roundIndex() + 1 }} מתוך 3"
+  [score]="session.score()"
+  [streak]="session.streak()"
+  [current]="doneCount()"
+  [total]="total"
+/>
+
+<app-praise-toast
+  [message]="session.toast().message"
+  [tone]="session.toast().tone"
+  [key]="session.toast().key"
+/>
+
+@if (session.finished()) {
+  <app-game-over
+    game="animals"
+    [score]="session.score()"
+    [accuracy]="session.accuracy()"
+    (playAgain)="start()"
+  />
+} @else {
+  <p class="mt-6 text-center text-2xl font-semibold text-white drop-shadow">
+    לחצו על חיה ואז על השם שלה 👇
+  </p>
+
+  @for (r of [roundIndex()]; track r) {
+    <section class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4" aria-label="חיות">
+      @for (animal of animals(); track animal.id; let i = $index) {
+        @let done = matched().has(animal.id);
+        <button
+          type="button"
+          class="card-glass relative flex aspect-square animate-pop-in flex-col items-center justify-center transition-all duration-200"
+          [class]="[
+            done ? 'bg-emerald-100! ring-4 ring-mint' : colors[i],
+            selectedAnimal() === animal.id ? 'scale-105 ring-8 ring-sunny' : 'hover:-translate-y-1 hover:scale-[1.03]',
+            isWrong(animal.id) ? 'animate-shake' : ''
+          ].join(' ')"
+          [style.animation-delay.ms]="i * 90"
+          [attr.aria-label]="done ? animal.name : 'חיה מספר ' + (i + 1)"
+          [attr.aria-pressed]="selectedAnimal() === animal.id"
+          (click)="pickAnimal(animal, $any($event.currentTarget))"
+        >
+          <span class="emoji text-7xl drop-shadow-lg sm:text-8xl" [class.animate-bounce-soft]="done">{{ animal.emoji }}</span>
+          @if (done) {
+            <span class="mt-2 animate-pop-in rounded-full bg-white px-4 py-1 text-2xl font-bold text-emerald-700">
+              {{ animal.name }} 🔊
+            </span>
+            <span class="absolute top-3 left-3 emoji text-3xl">✅</span>
+          }
+        </button>
+      }
+    </section>
+
+    <section class="mt-8 flex flex-wrap justify-center gap-4" aria-label="שמות">
+      @for (animal of names(); track animal.id; let i = $index) {
+        @if (!matched().has(animal.id)) {
+          <button
+            type="button"
+            class="btn-3d animate-pop-in border-grape bg-white px-8 py-4 text-3xl text-grape"
+            [class]="[
+              selectedName() === animal.id ? 'scale-110 bg-sunny! ring-4 ring-white' : '',
+              isWrong(animal.id) ? 'animate-shake bg-berry/20!' : ''
+            ].join(' ')"
+            [style.animation-delay.ms]="300 + i * 90"
+            [attr.aria-pressed]="selectedName() === animal.id"
+            (click)="pickName(animal, $any($event.currentTarget))"
+          >
+            {{ animal.name }}
+          </button>
+        }
+      }
+    </section>
+  }
+}
