@@ -33,24 +33,4 @@
   }
 </section>
 
-<section class="card-glass mx-auto mt-12 max-w-xl animate-pop-in p-6" style="animation-delay: 400ms">
-  <h2 class="mb-4 text-center text-3xl font-bold">🏆 היכל התהילה</h2>
-  @if (leaderboard.hasValue() && leaderboard.value().length) {
-    <ol class="flex flex-col gap-2">
-      @for (row of leaderboard.value(); track row.username; let i = $index) {
-        <li
-          class="flex items-center gap-3 rounded-2xl px-4 py-2 text-xl"
-          [class]="row.username === auth.user()?.username ? 'bg-sunny/50 font-bold' : 'bg-grape/5'"
-        >
-          <span class="emoji w-8 text-center text-2xl">{{ medals[i] ?? i + 1 }}</span>
-          <span class="flex-1 truncate">{{ row.username }}</span>
-          <span class="font-bold text-grape">{{ row.total }} ⭐</span>
-        </li>
-      }
-    </ol>
-  } @else if (leaderboard.isLoading()) {
-    <p class="text-center text-lg">טוען אלופים... ⏳</p>
-  } @else {
-    <p class="text-center text-lg">עוד אין אלופים — אולי זה יהיה אתם? 😉</p>
-  }
-</section>
+<app-leaderboard class="mt-12 block animate-pop-in" style="animation-delay: 400ms" />
