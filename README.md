@@ -1,78 +1,55 @@
-# 🧠 עולם החכמים – משחקי אינטליגנציה לילדים
+# Olam HaChachamim
 
-שלושה משחקים צבעוניים ללימוד דרך משחק, עם צבירת נקודות, צלילים, זיקוקים והיכל תהילה.
+Educational web games for kids, in Hebrew. Players sign up with a username and password, earn points, and compete on a shared leaderboard.
 
-| משחק | מה לומדים | איך משחקים |
-|------|-----------|------------|
-| 🦁 **ספארי השמות** | שמות של חיות | מתאימים כל תמונה של חיה לשם שלה (3 סיבובים × 4 חיות) |
-| 🎸 **בלונים מוזיקליים** | כלי נגינה | מפוצצים את הבלון עם הכלי שנקרא בשמו; כל כלי מנגן את הצליל שלו. כל סיבוב שלישי הוא **אתגר האוזן** 👂: שומעים רק צליל |
-| 🌍 **מסע סביב העולם** | ארצות ויבשות | גוררים דגל של מדינה ליבשת שלה (או לוחצים על מדינה ואז על יבשת) |
+| Game | Teaches | Mechanic |
+|------|---------|----------|
+| Safari | Animal names | Match each animal to its name |
+| Musical Balloons | Musical instruments | Pop the balloon with the named instrument; some rounds are sound-only |
+| Around the World | Countries and continents | Drag each flag to its continent |
 
-**ניקוד:** 10 נקודות לתשובה נכונה בניסיון הראשון, 4 אחרי טעות, ועוד 5 נקודות בונוס על כל רצף של 3.
+## Stack
 
-## טכנולוגיות
+- **Client:** Angular 22, Tailwind CSS 4, Angular CDK (drag and drop), canvas-confetti, Web Audio API
+- **Server:** Node.js, Express 5, bcrypt, JWT
+- **Storage:** a single JSON file (`server/data/db.json`)
 
-**Client** – `client/`
-- Angular 22 (standalone, signals, zoneless, lazy routes)
-- Tailwind CSS v4 עם design tokens משלנו
-- Angular CDK Drag & Drop
-- canvas-confetti: קונפטי וזיקוקים בצבעי המותג
-- Web Audio API: כל הצלילים מסונתזים בזמן אמת, כולל 12 כלי נגינה, ולכן אין קבצי אודיו
-- Speech Synthesis: הקראת שמות בעברית (כשיש קול עברי בדפדפן)
+## Getting started
 
-### שפה עיצובית: "דיו ונייר"
-פוסטר ילדים בהשראת באוהאוס: משטחים שטוחים, קו מתאר בצבע דיו וצל קשה.
-- **צבעים:** טורקיז `#22907E`, כתום `#F07014` ומג'נטה `#9C1574`, על נייר קרם `#FFF3E3` עם דיו `#1D2744`. לכל משחק צבע משלו.
-- **צורות:** עיגול, רבע עיגול ומשולש. הן מופיעות בלוגו, בקולאז' של דף הנחיתה ובכוכבים של מסך הסיום.
-- **טיפוגרפיה:** Karantina לכותרות, Rubik לטקסט, ו-Playpen Sans Hebrew להערות בכתב יד.
-- **איורים:** [OpenMoji](https://openmoji.org), סט אימוג'ים שטוח עם קו מתאר, ברישיון CC BY-SA 4.0.
-- **רכיבי בסיס** (ב-`styles.css`): `panel`, `btn` (עם `btn-teal`, `btn-orange`, `btn-magenta`, `btn-paper`), `sticker`, `field`, `display` ו-`emoji`.
-
-**Server** – `server/`
-- Node.js + Express 5
-- הרשמה והתחברות עם שם משתמש וסיסמה (bcrypt + JWT), בלי חשבון Google
-- אחסון בקובץ JSON עם כתיבה אטומית, בלי מסד נתונים חיצוני
-- helmet, rate limiting על ההתחברות, ולידציה של ניקוד
-
-### למה צד שרת, ולמה דווקא ככה?
-הנקודות צריכות להישמר בין מכשירים, ושם משתמש וסיסמה חייבים להיבדק בצד שרת. לכן שרת קטן הוא הכרחי.
-Express עם קובץ JSON הוא הפתרון הפשוט ביותר שעובד: אין מה להתקין ואין עלויות, והוא מספיק לעשרות ואף מאות ילדים.
-אם האתר יגדל, מחליפים את `server/src/db.js` ב-SQLite או ב-PostgreSQL (למשל Supabase או Neon), בלי לגעת בשאר הקוד.
-
-## הרצה מקומית
+Requires Node.js 22.22+ or 24.15+.
 
 ```bash
-npm install      # מתקין גם את client וגם את server
-npm run dev      # שרת על 3000 ואתר על http://localhost:4200
+npm install
+npm run dev
 ```
 
-## פרודקשן
+The app runs at http://localhost:4200 and the API at http://localhost:3000.
+
+## Production
 
 ```bash
 npm run build
-JWT_SECRET=<מחרוזת-אקראית-ארוכה> NODE_ENV=production npm start
+JWT_SECRET=<secret> NODE_ENV=production npm start
 ```
 
-השרת מגיש גם את ה-API וגם את האתר הבנוי, כך שמספיק שירות אחד (למשל Render, Railway או Fly.io).
-צריך לחבר דיסק קבוע (persistent volume) לתיקייה `server/data`, או להגדיר `DB_FILE` לנתיב על הדיסק.
+The server serves both the API and the built client. Mount persistent storage for the data file.
 
-| משתנה | ברירת מחדל | תיאור |
-|-------|-----------|-------|
-| `PORT` | `3000` | פורט השרת |
-| `JWT_SECRET` | — | **חובה בפרודקשן** |
-| `DB_FILE` | `server/data/db.json` | מיקום קובץ הנתונים |
+| Variable | Default | |
+|----------|---------|---|
+| `PORT` | `3000` | |
+| `JWT_SECRET` | none | Required in production |
+| `DB_FILE` | `server/data/db.json` | Path to the data file |
 
 ## API
 
-| Method | Path | Auth | תיאור |
-|--------|------|------|-------|
-| POST | `/api/auth/register` | — | `{ username, password }` → `{ token, user }` |
-| POST | `/api/auth/login` | — | `{ username, password }` → `{ token, user }` |
-| GET | `/api/me` | ✓ | המשתמש המחובר והנקודות שלו |
-| POST | `/api/scores` | ✓ | `{ game, points }`, מוסיף נקודות למשחק |
-| GET | `/api/leaderboard` | — | עשרת המובילים |
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| POST | `/api/auth/register` | | Create an account |
+| POST | `/api/auth/login` | | Sign in |
+| GET | `/api/me` | ✓ | Current user and scores |
+| POST | `/api/scores` | ✓ | Add points to a game |
+| GET | `/api/leaderboard` | | Top 10 players |
 
-## עבודה על הקוד
-- ענף נפרד לכל פיצ'ר (`feature/*`, `fix/*`, `chore/*`) ו-Pull Request ל-`main`
-- הודעות קומיט לפי [Conventional Commits](https://www.conventionalcommits.org/)
-- CI ב-GitHub Actions בונה את האתר ובודק את השרת בכל PR
+## Credits
+
+Illustrations by [OpenMoji](https://openmoji.org), licensed under CC BY-SA 4.0.
