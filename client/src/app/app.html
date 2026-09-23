@@ -7,6 +7,24 @@
   </a>
 
   <div class="flex items-center gap-2">
+    @if (auth.user(); as user) {
+      <div
+        class="flex items-center gap-2 rounded-2xl border-b-[6px] border-tangerine bg-sunny px-3 py-2 text-lg font-bold sm:text-xl"
+        title="סך כל הנקודות"
+      >
+        <span class="emoji animate-bounce-soft">⭐</span>
+        <span>{{ user.total }}</span>
+        <span class="hidden max-w-32 truncate border-s-2 border-ink/20 ps-2 font-medium sm:inline">{{ user.username }}</span>
+      </div>
+      <button
+        type="button"
+        class="btn-3d border-grape/60 bg-white px-3 py-2 text-lg"
+        aria-label="יציאה"
+        (click)="auth.logout()"
+      >
+        <span class="emoji">🚪</span>
+      </button>
+    }
     <button
       type="button"
       class="btn-3d border-grape/60 bg-white px-3 py-2 text-2xl"

@@ -1,0 +1,56 @@
+<section class="animate-pop-in text-center">
+  <h1 class="text-outline text-4xl font-bold text-white sm:text-6xl">
+    היי {{ auth.user()?.username }}! <span class="emoji inline-block animate-wiggle">👋</span>
+  </h1>
+  <p class="mt-3 text-xl font-medium text-white/90 sm:text-2xl">
+    במה נשחק היום? כל תשובה נכונה = נקודות! ⭐
+  </p>
+</section>
+
+<section class="mt-10 grid gap-6 md:grid-cols-3">
+  @for (game of games; track game.id; let i = $index) {
+    <a
+      class="group card-glass relative flex animate-pop-in flex-col items-center overflow-hidden p-6 text-center transition-transform duration-300 hover:-translate-y-2 hover:rotate-1"
+      [style.animation-delay.ms]="i * 120"
+      [routerLink]="['/games', game.id]"
+      (click)="sound.click()"
+    >
+      <div class="absolute inset-x-0 top-0 h-28 bg-linear-to-l {{ game.gradient }}"></div>
+      <div
+        class="emoji relative mt-4 grid size-32 place-items-center rounded-full bg-white text-7xl shadow-xl ring-8 ring-white/60 transition-transform duration-300 group-hover:scale-110"
+      >
+        {{ game.emoji }}
+      </div>
+      <h2 class="mt-4 text-3xl font-bold">{{ game.title }}</h2>
+      <p class="mt-1 text-lg text-ink/70">{{ game.tagline }}</p>
+      <div class="mt-4 rounded-full bg-sunny/40 px-4 py-1 text-lg font-bold">
+        ⭐ {{ auth.user()?.scores?.[game.id] ?? 0 }} נקודות
+      </div>
+      <span class="btn-3d mt-5 w-full border-ink/30 bg-linear-to-l text-white {{ game.gradient }}">
+        בואו נשחק! ▶
+      </span>
+    </a>
+  }
+</section>
+
+<section class="card-glass mx-auto mt-12 max-w-xl animate-pop-in p-6" style="animation-delay: 400ms">
+  <h2 class="mb-4 text-center text-3xl font-bold">🏆 היכל התהילה</h2>
+  @if (leaderboard.hasValue() && leaderboard.value().length) {
+    <ol class="flex flex-col gap-2">
+      @for (row of leaderboard.value(); track row.username; let i = $index) {
+        <li
+          class="flex items-center gap-3 rounded-2xl px-4 py-2 text-xl"
+          [class]="row.username === auth.user()?.username ? 'bg-sunny/50 font-bold' : 'bg-grape/5'"
+        >
+          <span class="emoji w-8 text-center text-2xl">{{ medals[i] ?? i + 1 }}</span>
+          <span class="flex-1 truncate">{{ row.username }}</span>
+          <span class="font-bold text-grape">{{ row.total }} ⭐</span>
+        </li>
+      }
+    </ol>
+  } @else if (leaderboard.isLoading()) {
+    <p class="text-center text-lg">טוען אלופים... ⏳</p>
+  } @else {
+    <p class="text-center text-lg">עוד אין אלופים — אולי זה יהיה אתם? 😉</p>
+  }
+</section>
