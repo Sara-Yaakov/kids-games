@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -14,11 +14,15 @@ type Mode = 'login' | 'register';
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Login {
+export class Login implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly sound = inject(SoundService);
   private readonly fx = inject(FxService);
+
+  /** Query params: ?mode=register&returnUrl=/games/animals */
+  readonly modeParam = input<string>(undefined, { alias: 'mode' });
+  readonly returnUrl = input<string>();
 
   protected readonly tabs: { id: Mode; label: string }[] = [
     { id: 'login', label: 'כניסה' },
@@ -30,6 +34,10 @@ export class Login {
   protected readonly error = signal('');
   protected readonly loading = signal(false);
   protected readonly shake = signal(false);
+
+  ngOnInit() {
+    if (this.modeParam() === 'register') this.mode.set('register');
+  }
 
   protected setMode(mode: Mode) {
     this.sound.click();
@@ -52,7 +60,10 @@ export class Login {
       next: () => {
         this.sound.win();
         this.fx.fireworks(1500);
-        void this.router.navigate(['/']);
+        // Only follow in-app paths to avoid open redirects.
+        const url = this.returnUrl() ?? '/';
+        const target = url.startsWith('/') && !url.startsWith('//') ? url : '/';
+        void this.router.navigateByUrl(target);
       },
       error: (err: HttpErrorResponse) => {
         this.loading.set(false);
