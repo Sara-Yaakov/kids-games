@@ -4,6 +4,7 @@ export interface Continent {
   id: ContinentId;
   name: string;
   emoji: string;
+  /** Background + matching text color classes. */
   color: string;
 }
 
@@ -14,12 +15,12 @@ export interface Country {
 }
 
 export const CONTINENTS: Continent[] = [
-  { id: 'europe', name: 'אירופה', emoji: '🏰', color: 'bg-sky' },
-  { id: 'asia', name: 'אסיה', emoji: '🏯', color: 'bg-bubblegum' },
-  { id: 'africa', name: 'אפריקה', emoji: '🦁', color: 'bg-tangerine' },
-  { id: 'northAmerica', name: 'צפון אמריקה', emoji: '🗽', color: 'bg-grape' },
-  { id: 'southAmerica', name: 'דרום אמריקה', emoji: '🦜', color: 'bg-mint' },
-  { id: 'oceania', name: 'אוקיאניה', emoji: '🦘', color: 'bg-sunny' },
+  { id: 'europe', name: 'אירופה', emoji: '🏰', color: 'bg-teal text-card' },
+  { id: 'asia', name: 'אסיה', emoji: '🏯', color: 'bg-magenta text-card' },
+  { id: 'africa', name: 'אפריקה', emoji: '🦁', color: 'bg-orange text-ink' },
+  { id: 'northAmerica', name: 'צפון אמריקה', emoji: '🗽', color: 'bg-teal-soft text-ink' },
+  { id: 'southAmerica', name: 'דרום אמריקה', emoji: '🦜', color: 'bg-magenta-soft text-ink' },
+  { id: 'oceania', name: 'אוקיאניה', emoji: '🦘', color: 'bg-orange-soft text-ink' },
 ];
 
 const c = (continent: ContinentId, list: [code: string, name: string][]): Country[] =>

@@ -1,6 +1,7 @@
 <app-game-hud
   title="ספארי השמות"
   emoji="🦁"
+  tone="orange"
   progressLabel="סיבוב {{ roundIndex() + 1 }} מתוך 3"
   [score]="session.score()"
   [streak]="session.streak()"
@@ -22,49 +23,53 @@
     (playAgain)="start()"
   />
 } @else {
-  <p class="mt-6 text-center text-2xl font-semibold text-white drop-shadow">
-    לחצו על חיה ואז על השם שלה 👇
+  <p class="mt-8 flex flex-wrap items-center justify-center gap-2 text-center text-xl font-semibold">
+    <span class="sticker bg-orange">איך משחקים?</span>
+    לוחצים על חיה, ואז על השם שלה
   </p>
 
   @for (r of [roundIndex()]; track r) {
-    <section class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4" aria-label="חיות">
+    <section class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-4" aria-label="חיות">
       @for (animal of animals(); track animal.id; let i = $index) {
         @let done = matched().has(animal.id);
+        @let picked = selectedAnimal() === animal.id;
         <button
           type="button"
-          class="card-glass relative flex aspect-square animate-pop-in flex-col items-center justify-center transition-all duration-200"
+          class="panel relative flex aspect-square animate-pop-in flex-col items-center justify-center transition-[translate,box-shadow,background-color] duration-150"
           [class]="[
-            done ? 'bg-emerald-100! ring-4 ring-mint' : colors[i],
-            selectedAnimal() === animal.id ? 'scale-105 ring-8 ring-sunny' : 'hover:-translate-y-1 hover:scale-[1.03]',
+            done ? 'bg-teal-soft' : picked ? 'bg-orange' : colors[i],
+            picked ? '-translate-y-1 shadow-ink-lg' : done ? '' : 'hover:-translate-y-1 hover:shadow-ink-lg',
             isWrong(animal.id) ? 'animate-shake' : ''
           ].join(' ')"
-          [style.animation-delay.ms]="i * 90"
+          [style.animation-delay.ms]="i * 80"
           [attr.aria-label]="done ? animal.name : 'חיה מספר ' + (i + 1)"
-          [attr.aria-pressed]="selectedAnimal() === animal.id"
+          [attr.aria-pressed]="picked"
           (click)="pickAnimal(animal, $any($event.currentTarget))"
         >
-          <span class="emoji text-7xl drop-shadow-lg sm:text-8xl" [class.animate-bounce-soft]="done">{{ animal.emoji }}</span>
+          <span class="emoji text-8xl sm:text-9xl" [class.animate-bob]="done">{{ animal.emoji }}</span>
           @if (done) {
-            <span class="mt-2 animate-pop-in rounded-full bg-white px-4 py-1 text-2xl font-bold text-emerald-700">
-              {{ animal.name }} 🔊
-            </span>
-            <span class="absolute top-3 left-3 emoji text-3xl">✅</span>
+            <span class="sticker absolute -bottom-3 animate-pop-in bg-card px-4 text-xl">{{ animal.name }} 🔊</span>
+            <span
+              class="absolute top-2 left-2 grid size-9 place-items-center rounded-full border-[3px] border-ink bg-teal text-lg font-bold text-card"
+              aria-hidden="true"
+              >✓</span
+            >
           }
         </button>
       }
     </section>
 
-    <section class="mt-8 flex flex-wrap justify-center gap-4" aria-label="שמות">
+    <section class="mt-12 flex flex-wrap justify-center gap-4" aria-label="שמות">
       @for (animal of names(); track animal.id; let i = $index) {
         @if (!matched().has(animal.id)) {
           <button
             type="button"
-            class="btn-3d animate-pop-in border-grape bg-white px-8 py-4 text-3xl text-grape"
+            class="btn animate-pop-in px-8 py-4 text-2xl"
             [class]="[
-              selectedName() === animal.id ? 'scale-110 bg-sunny! ring-4 ring-white' : '',
-              isWrong(animal.id) ? 'animate-shake bg-berry/20!' : ''
+              selectedName() === animal.id ? 'btn-orange -translate-y-1 shadow-ink' : 'btn-paper',
+              isWrong(animal.id) ? 'animate-shake bg-magenta-soft' : ''
             ].join(' ')"
-            [style.animation-delay.ms]="300 + i * 90"
+            [style.animation-delay.ms]="250 + i * 80"
             [attr.aria-pressed]="selectedName() === animal.id"
             (click)="pickName(animal, $any($event.currentTarget))"
           >

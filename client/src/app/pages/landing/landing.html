@@ -1,114 +1,109 @@
 <!-- Hero -->
-<section class="grid items-center gap-10 pt-4 lg:grid-cols-2">
-  <div class="animate-pop-in text-center lg:text-start">
-    <span class="inline-block rounded-full bg-white/20 px-4 py-1 text-lg font-semibold text-white backdrop-blur">
-      ✨ משחקי חשיבה לילדים
-    </span>
-    <h1 class="hero-title mt-4 text-6xl leading-tight font-bold sm:text-8xl">עולם החכמים</h1>
-    <p class="mt-4 text-2xl font-medium text-white sm:text-3xl">משחקים, לומדים ומנצחים! 🚀</p>
-    <p class="mt-2 text-lg text-white/85 sm:text-xl">
-      שלושה משחקים צבעוניים שמלמדים שמות של חיות, כלי נגינה ומדינות. כל תשובה נכונה שווה נקודות!
+<section class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+  <div class="animate-pop-in">
+    <span class="sticker bg-teal-soft">משחקי חשיבה לילדים</span>
+
+    <h1 class="display mt-5 text-[5.5rem] sm:text-[8.5rem]">
+      <span class="block">משחקים.</span>
+      <span class="block text-orange">לומדים.</span>
+      <span class="block text-magenta">מנצחים.</span>
+    </h1>
+
+    <p class="mt-5 max-w-md text-xl leading-relaxed">
+      שלושה משחקים שמלמדים שמות של <strong>חיות</strong>, <strong>כלי נגינה</strong> ו<strong>מדינות</strong>.
+      כל תשובה נכונה שווה נקודות.
     </p>
 
-    <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+    <div class="relative mt-8 flex flex-wrap items-center gap-4">
       <a
         routerLink="/login"
         [queryParams]="{ mode: 'register' }"
-        class="btn-3d cta border-tangerine bg-sunny px-8 py-4 text-2xl"
+        class="btn btn-orange px-8 py-4 text-xl"
         (click)="sound.click()"
       >
-        יאללה, מתחילים! 🚀
+        מתחילים לשחק
+        <span aria-hidden="true">←</span>
       </a>
-      <a routerLink="/login" class="btn-3d border-grape/50 bg-white px-8 py-4 text-2xl text-grape" (click)="sound.click()">
-        כבר יש לי משתמש
-      </a>
+      <a routerLink="/login" class="btn btn-paper px-6 py-4 text-xl" (click)="sound.click()">כבר יש לי משתמש</a>
+
+      <p class="hand-note" aria-hidden="true">
+        <svg viewBox="0 0 60 40" class="h-8 w-12"><path d="M58 6C40 4 20 10 8 30m0 0l1-12m-1 12l11-3" /></svg>
+        10 שניות והתחלתם!
+      </p>
     </div>
   </div>
 
-  <!-- Mascot with orbiting emojis -->
-  <div class="relative mx-auto grid size-72 place-items-center sm:size-96" aria-hidden="true">
-    <div class="absolute inset-6 rounded-full bg-white/15 ring-4 ring-white/30 backdrop-blur-sm"></div>
-    <div class="emoji relative animate-bounce-soft text-[7rem] drop-shadow-2xl sm:text-[9rem]">🧠</div>
-    <div class="orbit absolute inset-0">
-      @for (e of orbit; track e; let i = $index) {
-        <span class="orbit-item" [style.--i]="i" [style.--n]="orbit.length"><span class="upright emoji">{{ e }}</span></span>
-      }
-    </div>
+  <!-- Geometric collage: one shape per game -->
+  <div class="collage" aria-hidden="true">
+    <div class="shape circle bg-teal"><span class="emoji">🦁</span></div>
+    <div class="shape quarter bg-orange"><span class="emoji">🎸</span></div>
+    <div class="shape arch bg-magenta"><span class="emoji">🌍</span></div>
+    <div class="shape dot bg-ink"></div>
+    <div class="shape square bg-card"><span class="emoji">⭐</span></div>
+    <svg class="squiggle" viewBox="0 0 200 40"><path d="M4 20 Q 29 0 54 20 T 104 20 T 154 20 T 196 20" /></svg>
   </div>
 </section>
 
-<!-- Stats -->
-<section class="mt-12 grid grid-cols-3 gap-3 sm:gap-6">
-  @for (s of stats; track s.label; let i = $index) {
-    <div class="card-glass animate-pop-in p-4 text-center sm:p-6" [style.animation-delay.ms]="200 + i * 100">
-      <div class="emoji text-3xl sm:text-4xl">{{ s.emoji }}</div>
-      <div class="text-3xl font-bold text-grape sm:text-5xl">{{ s.value }}</div>
-      <div class="text-base font-semibold sm:text-xl">{{ s.label }}</div>
+<!-- Stats band -->
+<section class="panel mt-20 grid grid-cols-3 bg-card divide-x-[3px] divide-ink overflow-hidden">
+  @for (s of stats; track s.label) {
+    <div class="px-3 py-5 text-center sm:py-7">
+      <div class="display text-6xl sm:text-8xl" [class]="s.tone">{{ s.value }}</div>
+      <div class="mt-1 text-sm font-semibold sm:text-lg">{{ s.label }}</div>
     </div>
   }
 </section>
 
 <!-- Games -->
-<section class="mt-16">
-  <h2 class="text-outline text-center text-4xl font-bold text-white sm:text-5xl">🎮 המשחקים שלנו</h2>
-  <div class="mt-8 grid gap-6 md:grid-cols-3">
+<section class="mt-24">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="display text-6xl sm:text-7xl">שלושה משחקים.<br /><span class="text-teal">שלושה עולמות.</span></h2>
+    <p class="max-w-xs text-lg">בכל משחק צבע משלו, דמויות משלו ואתגר משלו.</p>
+  </div>
+
+  <div class="mt-10 grid gap-8 md:grid-cols-3">
     @for (game of games; track game.id; let i = $index) {
-      <a
-        class="group card-glass relative flex animate-pop-in flex-col items-center overflow-hidden p-6 text-center transition-transform duration-300 hover:-translate-y-2 hover:-rotate-1"
-        [style.animation-delay.ms]="i * 120"
-        [routerLink]="['/games', game.id]"
-        (click)="sound.click()"
-      >
-        <div class="absolute inset-x-0 top-0 h-28 bg-linear-to-l {{ game.gradient }}"></div>
-        <div
-          class="emoji relative mt-4 grid size-32 place-items-center rounded-full bg-white text-7xl shadow-xl ring-8 ring-white/60 transition-transform duration-300 group-hover:scale-110"
-        >
-          {{ game.emoji }}
-        </div>
-        <h3 class="mt-4 text-3xl font-bold">{{ game.title }}</h3>
-        <p class="mt-1 text-lg text-ink/70">{{ game.tagline }}</p>
-        <div class="emoji mt-4 flex gap-2 text-3xl">
+      <app-game-card class="animate-pop-in" [style.animation-delay.ms]="i * 100" [game]="game">
+        <div class="emoji mt-4 flex gap-2 text-4xl" aria-hidden="true">
           @for (p of previews[game.id]; track $index) {
-            <span class="transition-transform group-hover:animate-wiggle" [style.animation-delay.ms]="$index * 80">{{ p }}</span>
+            <span>{{ p }}</span>
           }
         </div>
-        <span class="btn-3d mt-5 w-full border-ink/30 bg-linear-to-l text-white {{ game.gradient }}">בואו נשחק! ▶</span>
-      </a>
+      </app-game-card>
     }
   </div>
 </section>
 
 <!-- How it works -->
-<section class="mt-16">
-  <h2 class="text-outline text-center text-4xl font-bold text-white sm:text-5xl">איך זה עובד? 🤔</h2>
-  <ol class="mt-8 grid gap-6 md:grid-cols-3">
+<section class="mt-24">
+  <h2 class="display text-6xl sm:text-7xl">איך זה עובד?</h2>
+  <ol class="mt-10 grid gap-10 md:grid-cols-3">
     @for (step of steps; track step.title; let i = $index) {
-      <li class="card-glass relative p-6 pt-10 text-center">
-        <span
-          class="absolute -top-5 right-1/2 grid size-12 translate-x-1/2 place-items-center rounded-full bg-bubblegum text-2xl font-bold text-white shadow-lg ring-4 ring-white"
-          >{{ i + 1 }}</span
-        >
-        <div class="emoji text-6xl">{{ step.emoji }}</div>
-        <h3 class="mt-3 text-2xl font-bold">{{ step.title }}</h3>
-        <p class="mt-2 text-lg text-ink/70">{{ step.text }}</p>
+      <li class="step">
+        <span class="step-number display">{{ i + 1 }}</span>
+        <h3 class="mt-2 text-2xl font-bold">{{ step.title }}</h3>
+        <p class="mt-1 text-lg">{{ step.text }}</p>
       </li>
     }
   </ol>
 </section>
 
-<app-leaderboard class="mt-16 block" />
+<app-leaderboard class="mt-24 block" />
 
 <!-- Final CTA -->
-<section class="mt-16 rounded-[2rem] bg-linear-to-l from-sunny via-tangerine to-bubblegum p-8 text-center shadow-2xl sm:p-12">
-  <div class="emoji text-6xl">🎉</div>
-  <h2 class="mt-2 text-3xl font-bold sm:text-5xl">מוכנים להפוך לחכמים?</h2>
-  <p class="mt-2 text-xl">לוקח 10 שניות להירשם, ואז מתחילים לשחק!</p>
-  <a
-    routerLink="/login"
-    [queryParams]="{ mode: 'register' }"
-    class="btn-3d mt-6 border-ink bg-white px-10 py-4 text-2xl text-grape"
-    (click)="sound.click()"
-  >
-    אני בפנים! ✨
-  </a>
+<section class="cta-band panel relative mt-24 overflow-hidden bg-magenta p-8 text-card sm:p-14">
+  <div class="relative z-10 max-w-lg">
+    <h2 class="display text-6xl sm:text-8xl">מוכנים להיות חכמים?</h2>
+    <p class="mt-3 text-xl">נרשמים בכמה שניות ומתחילים לשחק.</p>
+    <a
+      routerLink="/login"
+      [queryParams]="{ mode: 'register' }"
+      class="btn btn-orange mt-8 px-8 py-4 text-xl"
+      (click)="sound.click()"
+    >
+      יוצרים משתמש <span aria-hidden="true">←</span>
+    </a>
+  </div>
+  <div class="cta-shape cta-circle bg-teal" aria-hidden="true"></div>
+  <div class="cta-shape cta-quarter bg-orange" aria-hidden="true"></div>
 </section>

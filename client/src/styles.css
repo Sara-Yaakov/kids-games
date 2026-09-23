@@ -1,87 +1,138 @@
 @import 'tailwindcss';
 
+/* OpenMoji: flat, ink-outlined illustrations that match the brand (CC BY-SA 4.0). */
+@font-face {
+  font-family: 'OpenMoji';
+  src: url('https://cdn.jsdelivr.net/gh/hfg-gmuend/openmoji@17.0.0/font/OpenMoji-color-glyf_colr_0/OpenMoji-color-glyf_colr_0.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
 @theme {
-  --font-display: 'Fredoka', 'Noto Color Emoji', system-ui, sans-serif;
-  --font-emoji: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  --font-sans: 'IBM Plex Sans Hebrew', 'OpenMoji', system-ui, sans-serif;
+  --font-display: 'Karantina', 'IBM Plex Sans Hebrew', 'OpenMoji', sans-serif;
+  --font-hand: 'Playpen Sans Hebrew', 'IBM Plex Sans Hebrew', sans-serif;
+  --font-emoji: 'OpenMoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
 
-  --color-ink: #1e1147;
-  --color-grape: #7c3aed;
-  --color-bubblegum: #ff4fa3;
-  --color-berry: #e11d74;
-  --color-sunny: #ffd23f;
-  --color-tangerine: #ff8a2b;
-  --color-mint: #22e3a0;
-  --color-sky: #3ec5ff;
-  --color-ocean: #2563eb;
-  --color-lime: #a3e635;
+  --color-ink: #1d2744;
+  --color-paper: #fff3e3;
+  --color-card: #fffaf2;
+  --color-paper-deep: #f5e2c6;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-wiggle: wiggle 0.5s ease-in-out;
-  --animate-pop-in: pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --color-teal: #22907e;
+  --color-teal-deep: #176b5e;
+  --color-teal-soft: #cdebe4;
+  --color-orange: #f07014;
+  --color-orange-deep: #c2560a;
+  --color-orange-soft: #fddfc7;
+  --color-magenta: #9c1574;
+  --color-magenta-deep: #74105a;
+  --color-magenta-soft: #f2d0e6;
+
+  /* Hard offset shadows fall to the bottom-left, matching RTL reading direction. */
+  --shadow-ink-sm: -3px 3px 0 var(--color-ink);
+  --shadow-ink: -5px 5px 0 var(--color-ink);
+  --shadow-ink-lg: -8px 8px 0 var(--color-ink);
+
+  --animate-pop-in: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   --animate-shake: shake 0.45s ease-in-out;
-  --animate-bounce-soft: bounce-soft 2s ease-in-out infinite;
-  --animate-gradient: gradient 18s ease infinite;
+  --animate-wiggle: wiggle 0.5s ease-in-out;
+  --animate-bob: bob 2.4s ease-in-out infinite;
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-18px) rotate(4deg); }
-  }
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(-8deg) scale(1.08); }
-    75% { transform: rotate(8deg) scale(1.08); }
-  }
   @keyframes pop-in {
-    from { opacity: 0; transform: scale(0.4) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+    from { opacity: 0; transform: scale(0.6) translateY(16px); }
+    to { opacity: 1; transform: none; }
   }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-10px); }
-    40%, 80% { transform: translateX(10px); }
+    20%, 60% { transform: translateX(-9px) rotate(-1deg); }
+    40%, 80% { transform: translateX(9px) rotate(1deg); }
   }
-  @keyframes bounce-soft {
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-7deg); }
+    75% { transform: rotate(7deg); }
+  }
+  @keyframes bob {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    50% { transform: translateY(-6px); }
   }
 }
 
-html,
-body {
-  min-height: 100%;
+html {
+  scrollbar-color: var(--color-ink) var(--color-paper-deep);
 }
 
 body {
-  @apply font-display text-ink antialiased;
-  background: linear-gradient(135deg, #4c1d95, #7c3aed, #db2777, #f97316, #7c3aed);
-  background-size: 400% 400%;
-  animation: var(--animate-gradient);
-  overscroll-behavior: none;
+  @apply bg-paper font-sans text-ink antialiased;
+  /* Faint printed dot grid. */
+  background-image: radial-gradient(rgb(29 39 68 / 0.09) 1.2px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+::selection {
+  @apply bg-orange text-ink;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-orange);
+  outline-offset: 3px;
 }
 
 @utility emoji {
   font-family: var(--font-emoji);
+  font-weight: 400;
   line-height: 1;
 }
 
-/* Chunky "pressable" button: the bottom border is the 3D edge. */
-@utility btn-3d {
-  @apply inline-flex cursor-pointer select-none items-center justify-center gap-2 rounded-2xl border-b-[6px] px-6 py-3 text-xl font-bold transition-all duration-100;
-  @apply hover:-translate-y-0.5 hover:brightness-110 active:translate-y-1 active:border-b-2;
-  @apply disabled:pointer-events-none disabled:opacity-50;
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
 }
 
-@utility card-glass {
-  @apply rounded-[2rem] border-2 border-white/40 bg-white/85 shadow-[0_12px_40px_rgba(30,17,71,0.35)] backdrop-blur-md;
+/* Ink outline and hard shadow. Pair with a bg-* class. */
+@utility panel {
+  @apply rounded-[18px] border-[3px] border-ink shadow-ink;
 }
 
-@utility text-outline {
-  -webkit-text-stroke: 2px var(--color-ink);
-  paint-order: stroke fill;
+@utility btn {
+  @apply inline-flex cursor-pointer select-none items-center justify-center gap-2 rounded-xl border-[3px] border-ink px-6 py-3 text-lg font-bold shadow-ink-sm transition-[translate,box-shadow] duration-100;
+  @apply hover:-translate-y-0.5 hover:translate-x-0.5 hover:shadow-ink;
+  @apply active:-translate-x-[3px] active:translate-y-[3px] active:shadow-none;
+}
+
+@utility btn-teal {
+  @apply bg-teal text-card;
+}
+@utility btn-orange {
+  @apply bg-orange text-ink;
+}
+@utility btn-magenta {
+  @apply bg-magenta text-card;
+}
+@utility btn-paper {
+  @apply bg-card text-ink;
+}
+
+/* Small rotated label, like a sticker on a poster. */
+@utility sticker {
+  @apply inline-block -rotate-3 whitespace-nowrap rounded-lg border-2 border-ink px-3 py-0.5 text-sm font-bold shadow-ink-sm;
+}
+
+@utility field {
+  @apply w-full rounded-xl border-[3px] border-ink bg-card px-4 py-3 text-xl outline-none transition-shadow;
+  @apply focus:shadow-ink-sm;
+}
+
+/* Unlayered so it beats the color variants (btn-teal etc.). */
+.btn:disabled {
+  pointer-events: none;
+  border-style: dashed;
+  background: var(--color-paper-deep);
+  color: rgb(29 39 68 / 0.45);
+  box-shadow: none;
 }
 
 /* Keep pop-in in the list so removing the shake doesn't replay the entrance. */
@@ -92,20 +143,20 @@ body {
 
 /* CDK drag & drop renders previews in <body>, so these must be global. */
 .cdk-drag-preview {
-  @apply rotate-6 scale-110 shadow-2xl ring-4 ring-sunny;
+  @apply rotate-3 shadow-ink-lg;
+}
+.cdk-drag-placeholder {
+  @apply opacity-30;
 }
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
-.continent-zone.cdk-drop-list-receiving,
-.continent-zone.ready {
-  @apply ring-4 ring-white/60;
+.continent.ready,
+.continent.cdk-drop-list-receiving {
+  @apply border-dashed;
 }
-.continent-zone.cdk-drop-list-dragging {
-  @apply scale-105 ring-8 ring-sunny brightness-110;
-}
-.country-card.selected {
-  @apply -translate-y-1 scale-105 bg-sunny ring-4 ring-white;
+.continent.cdk-drop-list-dragging {
+  @apply -translate-y-1 shadow-ink-lg;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -113,6 +164,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

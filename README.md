@@ -14,12 +14,19 @@
 
 **Client** – `client/`
 - Angular 22 (standalone, signals, zoneless, lazy routes)
-- Tailwind CSS v4: ערכת צבעים, כפתורי 3D, אנימציות
+- Tailwind CSS v4 עם design tokens משלנו
 - Angular CDK Drag & Drop
-- canvas-confetti: קונפטי, זיקוקים וגשם אימוג'ים
+- canvas-confetti: קונפטי וזיקוקים בצבעי המותג
 - Web Audio API: כל הצלילים מסונתזים בזמן אמת, כולל 12 כלי נגינה, ולכן אין קבצי אודיו
 - Speech Synthesis: הקראת שמות בעברית (כשיש קול עברי בדפדפן)
-- גופנים: Fredoka ו-Noto Color Emoji, כדי שהאימוג'ים והדגלים ייראו אותו דבר בכל מערכת
+
+### שפה עיצובית: "דיו ונייר"
+פוסטר ילדים בהשראת באוהאוס: משטחים שטוחים, קו מתאר בצבע דיו וצל קשה.
+- **צבעים:** טורקיז `#22907E`, כתום `#F07014` ומג'נטה `#9C1574`, על נייר קרם `#FFF3E3` עם דיו `#1D2744`. לכל משחק צבע משלו.
+- **צורות:** עיגול, רבע עיגול ומשולש. הן מופיעות בלוגו, בקולאז' של דף הנחיתה ובכוכבים של מסך הסיום.
+- **טיפוגרפיה:** Karantina לכותרות, IBM Plex Sans Hebrew לטקסט, ו-Playpen Sans Hebrew להערות בכתב יד.
+- **איורים:** [OpenMoji](https://openmoji.org), סט אימוג'ים שטוח עם קו מתאר, ברישיון CC BY-SA 4.0.
+- **רכיבי בסיס** (ב-`styles.css`): `panel`, `btn` (עם `btn-teal`, `btn-orange`, `btn-magenta`, `btn-paper`), `sticker`, `field`, `display` ו-`emoji`.
 
 **Server** – `server/`
 - Node.js + Express 5
