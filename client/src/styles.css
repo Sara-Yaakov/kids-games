@@ -84,6 +84,30 @@ body {
   paint-order: stroke fill;
 }
 
+/* Keep pop-in in the list so removing the shake doesn't replay the entrance. */
+.animate-pop-in.animate-shake {
+  animation: var(--animate-pop-in), var(--animate-shake);
+  animation-delay: 0s !important;
+}
+
+/* CDK drag & drop renders previews in <body>, so these must be global. */
+.cdk-drag-preview {
+  @apply rotate-6 scale-110 shadow-2xl ring-4 ring-sunny;
+}
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.continent-zone.cdk-drop-list-receiving,
+.continent-zone.ready {
+  @apply ring-4 ring-white/60;
+}
+.continent-zone.cdk-drop-list-dragging {
+  @apply scale-105 ring-8 ring-sunny brightness-110;
+}
+.country-card.selected {
+  @apply -translate-y-1 scale-105 bg-sunny ring-4 ring-white;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

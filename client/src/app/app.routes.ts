@@ -27,6 +27,11 @@ export const routes: Routes = [
         title: 'בלונים מוזיקליים | עולם החכמים',
         loadComponent: () => import('./games/instruments/instruments').then((m) => m.Instruments),
       },
+      {
+        path: 'games/countries',
+        title: 'מסע סביב העולם | עולם החכמים',
+        loadComponent: () => import('./games/countries/countries').then((m) => m.Countries),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
