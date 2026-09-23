@@ -1,0 +1,13 @@
+{
+  "name": "kids-games",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm ci --prefix client && npm ci --prefix server",
+    "dev": "concurrently -k -n api,web -c magenta,cyan \"npm run dev --prefix server\" \"npm start --prefix client\"",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
