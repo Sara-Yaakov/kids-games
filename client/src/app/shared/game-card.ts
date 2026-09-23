@@ -26,7 +26,7 @@ import { SoundService } from '../core/sound.service';
         <p class="mt-1 text-lg">{{ game().tagline }}</p>
         <ng-content />
         <span class="mt-auto flex items-center justify-between pt-6 text-lg font-bold" [class]="tone().text">
-          לשחק עכשיו
+          לשחק
           <span
             class="grid size-10 place-items-center rounded-full border-[3px] border-ink transition-transform group-hover:-translate-x-1"
             [class]="tone().solid + ' ' + tone().onSolid"

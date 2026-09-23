@@ -1,17 +1,17 @@
 <!-- Hero -->
 <section class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
   <div class="animate-pop-in">
-    <span class="sticker bg-teal-soft">משחקי חשיבה לילדים</span>
+    <span class="sticker bg-teal-soft">משחקי למידה לילדים</span>
 
     <h1 class="display mt-5 text-[5.5rem] sm:text-[8.5rem]">
-      <span class="block">משחקים.</span>
-      <span class="block text-orange">לומדים.</span>
-      <span class="block text-magenta">מנצחים.</span>
+      <span class="block">משחקים</span>
+      <span class="block text-orange">ולומדים</span>
+      <span class="block text-magenta">על העולם.</span>
     </h1>
 
     <p class="mt-5 max-w-md text-xl leading-relaxed">
-      שלושה משחקים שמלמדים שמות של <strong>חיות</strong>, <strong>כלי נגינה</strong> ו<strong>מדינות</strong>.
-      כל תשובה נכונה שווה נקודות.
+      שלושה משחקים קצרים שמלמדים לזהות <strong>חיות</strong>, <strong>כלי נגינה</strong> ו<strong>מדינות</strong>.
+      כל תשובה נכונה מוסיפה נקודות.
     </p>
 
     <div class="relative mt-8 flex flex-wrap items-center gap-4">
@@ -21,14 +21,14 @@
         class="btn btn-orange px-8 py-4 text-xl"
         (click)="sound.click()"
       >
-        מתחילים לשחק
+        הרשמה בחינם
         <span aria-hidden="true">←</span>
       </a>
-      <a routerLink="/login" class="btn btn-paper px-6 py-4 text-xl" (click)="sound.click()">כבר יש לי משתמש</a>
+      <a routerLink="/login" class="btn btn-paper px-6 py-4 text-xl" (click)="sound.click()">כניסה</a>
 
       <p class="hand-note" aria-hidden="true">
         <svg viewBox="0 0 60 40" class="h-8 w-12"><path d="M58 6C40 4 20 10 8 30m0 0l1-12m-1 12l11-3" /></svg>
-        10 שניות והתחלתם!
+        בלי מייל ובלי תשלום
       </p>
     </div>
   </div>
@@ -57,8 +57,8 @@
 <!-- Games -->
 <section class="mt-24">
   <div class="flex flex-wrap items-end justify-between gap-4">
-    <h2 class="display text-6xl sm:text-7xl">שלושה משחקים.<br /><span class="text-teal">שלושה עולמות.</span></h2>
-    <p class="max-w-xs text-lg">בכל משחק צבע משלו, דמויות משלו ואתגר משלו.</p>
+    <h2 class="display text-6xl sm:text-7xl">שלושה משחקים,<br /><span class="text-teal">שלושה נושאים</span></h2>
+    <p class="max-w-xs text-lg">בלי שעון ובלי לחץ. כל משחק נמשך כמה דקות, ואפשר לשחק שוב כמה שרוצים.</p>
   </div>
 
   <div class="mt-10 grid gap-8 md:grid-cols-3">
@@ -93,15 +93,15 @@
 <!-- Final CTA -->
 <section class="cta-band panel relative mt-24 overflow-hidden bg-magenta p-8 text-card sm:p-14">
   <div class="relative z-10 max-w-lg">
-    <h2 class="display text-6xl sm:text-8xl">מוכנים להיות חכמים?</h2>
-    <p class="mt-3 text-xl">נרשמים בכמה שניות ומתחילים לשחק.</p>
+    <h2 class="display text-6xl sm:text-8xl">מוכנים להתחיל?</h2>
+    <p class="mt-3 text-xl">ההרשמה לוקחת פחות מדקה, ואחריה אפשר לבחור משחק.</p>
     <a
       routerLink="/login"
       [queryParams]="{ mode: 'register' }"
       class="btn btn-orange mt-8 px-8 py-4 text-xl"
       (click)="sound.click()"
     >
-      יוצרים משתמש <span aria-hidden="true">←</span>
+      להרשמה <span aria-hidden="true">←</span>
     </a>
   </div>
   <div class="cta-shape cta-circle bg-teal" aria-hidden="true"></div>
