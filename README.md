@@ -2,6 +2,8 @@
 
 Educational web games for kids, in Hebrew. Players sign up with a username and password, earn points, and compete on a shared leaderboard.
 
+**Live:** https://kids-games-d9nd.onrender.com (free tier; the first visit after a period of inactivity takes about a minute to load)
+
 | Game | Teaches | Mechanic |
 |------|---------|----------|
 | Safari | Animal names | Match each animal to its name |
