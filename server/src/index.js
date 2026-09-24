@@ -4,12 +4,13 @@ import compression from 'compression';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadDb, persist } from './db.js';
-import { api } from './routes.js';
+import { createApi } from './routes.js';
+import { createStore } from './store/index.js';
 
 const PORT = process.env.PORT ?? 3000;
 const CLIENT_DIST = resolve(dirname(fileURLToPath(import.meta.url)), '../../client/dist/kids-games/browser');
 
+const store = await createStore();
 const app = express();
 // Behind the hosting proxy: needed for correct client IPs in rate limiting.
 app.set('trust proxy', 1);
@@ -18,7 +19,7 @@ app.use(compression());
 app.use(express.json({ limit: '10kb' }));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
-app.use('/api', api);
+app.use('/api', createApi(store));
 
 // In production the server also hosts the built Angular app.
 if (existsSync(CLIENT_DIST)) {
@@ -39,8 +40,7 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'אופס, משהו השתבש' });
 });
 
-await loadDb();
 const server = app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
-// Finish pending writes before the platform stops the container.
-process.on('SIGTERM', () => server.close(() => persist().finally(() => process.exit(0))));
+// Finish pending writes and close connections before the platform stops the container.
+process.on('SIGTERM', () => server.close(() => store.close().finally(() => process.exit(0))));

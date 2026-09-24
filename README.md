@@ -32,16 +32,18 @@ The app ships as a single Docker image: the server serves both the API and the b
 
 ```bash
 docker build -t kids-games .
-docker run -p 3000:3000 -e JWT_SECRET=<secret> -v kids-games-data:/data kids-games
+docker run -p 3000:3000 -e JWT_SECRET=<secret> -e MONGODB_URI=<uri> kids-games
 ```
 
-Deployed on [Railway](https://railway.com) from `main` (see `railway.json`), with a volume mounted at `/data`.
+Storage is a JSON file by default, or MongoDB when `MONGODB_URI` is set. Hosted on the [Render](https://render.com) free tier (`render.yaml`) with a [MongoDB Atlas](https://www.mongodb.com/atlas) free cluster.
 
 | Variable | Default | |
 |----------|---------|---|
-| `JWT_SECRET` | none | Required |
+| `JWT_SECRET` | none | Required in production |
+| `MONGODB_URI` | none | Use MongoDB instead of the JSON file |
+| `MONGODB_DB` | `kidsgames` | MongoDB database name |
+| `DB_FILE` | `server/data/db.json` | JSON file path |
 | `PORT` | `3000` | |
-| `DB_FILE` | `/data/db.json` in Docker | Path to the data file |
 
 ## API
 
