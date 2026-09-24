@@ -1,12 +1,13 @@
 import { GameId } from './models';
 
-export type Tone = 'teal' | 'orange' | 'magenta';
+export type Tone = 'teal' | 'orange' | 'magenta' | 'ink';
 
 /** Full class strings per tone, so Tailwind can see them. */
 export const TONES: Record<Tone, { solid: string; soft: string; text: string; btn: string; onSolid: string }> = {
   teal: { solid: 'bg-teal', soft: 'bg-teal-soft', text: 'text-teal-deep', btn: 'btn-teal', onSolid: 'text-card' },
   orange: { solid: 'bg-orange', soft: 'bg-orange-soft', text: 'text-orange-deep', btn: 'btn-orange', onSolid: 'text-ink' },
   magenta: { solid: 'bg-magenta', soft: 'bg-magenta-soft', text: 'text-magenta', btn: 'btn-magenta', onSolid: 'text-card' },
+  ink: { solid: 'bg-ink', soft: 'bg-paper-deep', text: 'text-ink', btn: 'btn-ink', onSolid: 'text-card' },
 };
 
 export interface GameInfo {
@@ -29,6 +30,14 @@ export const GAMES: GameInfo[] = [
     tone: 'magenta',
   },
   { id: 'countries', number: '03', title: 'מסע סביב העולם', tagline: 'מתאימים כל מדינה ליבשת שלה', emoji: '🌍', tone: 'teal' },
+  {
+    id: 'opposites',
+    number: '04',
+    title: 'הפוך על הפוך',
+    tagline: 'מוצאים לכל מילה את ההפך שלה',
+    emoji: '🙃',
+    tone: 'ink',
+  },
 ];
 
 export const gameById = (id: GameId) => GAMES.find((g) => g.id === id)!;
