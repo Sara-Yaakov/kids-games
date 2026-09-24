@@ -7,6 +7,7 @@ Educational web games for kids, in Hebrew. Players sign up with a username and p
 | Safari | Animal names | Match each animal to its name |
 | Musical Balloons | Musical instruments | Pop the balloon with the named instrument; some rounds are sound-only |
 | Around the World | Countries and continents | Drag each flag to its continent |
+| Upside Down | Hebrew opposites | Pick the opposite word; three levels from basic to advanced |
 
 ## Stack
 

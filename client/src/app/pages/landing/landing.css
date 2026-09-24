@@ -146,3 +146,23 @@
     display: none;
   }
 }
+
+/* Stats band dividers: 2x2 on phones, one row from sm up. */
+.stat {
+  border-color: var(--color-ink);
+}
+
+@media (max-width: 639px) {
+  .stat:nth-child(odd) {
+    border-inline-end-width: 3px;
+  }
+  .stat:nth-child(-n + 2) {
+    border-bottom-width: 3px;
+  }
+}
+
+@media (min-width: 640px) {
+  .stat:not(:last-child) {
+    border-inline-end-width: 3px;
+  }
+}

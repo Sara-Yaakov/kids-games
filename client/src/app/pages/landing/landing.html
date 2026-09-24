@@ -10,7 +10,7 @@
     </h1>
 
     <p class="mt-5 max-w-md text-xl leading-relaxed">
-      שלושה משחקים קצרים שמלמדים לזהות <strong>חיות</strong>, <strong>כלי נגינה</strong> ו<strong>מדינות</strong>.
+      ארבעה משחקים קצרים שמלמדים לזהות <strong>חיות</strong>, <strong>כלי נגינה</strong>, <strong>מדינות</strong> ו<strong>הפכים</strong>.
       כל תשובה נכונה מוסיפה נקודות.
     </p>
 
@@ -45,9 +45,9 @@
 </section>
 
 <!-- Stats band -->
-<section class="panel mt-20 grid grid-cols-3 bg-card divide-x-[3px] divide-ink overflow-hidden">
+<section class="panel mt-20 grid grid-cols-2 overflow-hidden bg-card sm:grid-cols-4">
   @for (s of stats; track s.label) {
-    <div class="px-3 py-5 text-center sm:py-7">
+    <div class="stat px-3 py-5 text-center sm:py-7">
       <div class="display text-6xl sm:text-8xl" [class]="s.tone">{{ s.value }}</div>
       <div class="mt-1 text-sm font-semibold sm:text-lg">{{ s.label }}</div>
     </div>
@@ -57,11 +57,11 @@
 <!-- Games -->
 <section class="mt-24">
   <div class="flex flex-wrap items-end justify-between gap-4">
-    <h2 class="display text-6xl sm:text-7xl">שלושה משחקים,<br /><span class="text-teal">שלושה נושאים</span></h2>
+    <h2 class="display text-6xl sm:text-7xl">ארבעה משחקים,<br /><span class="text-teal">ארבעה נושאים</span></h2>
     <p class="max-w-xs text-lg">בלי שעון ובלי לחץ. כל משחק נמשך כמה דקות, ואפשר לשחק שוב כמה שרוצים.</p>
   </div>
 
-  <div class="mt-10 grid gap-8 md:grid-cols-3">
+  <div class="mt-10 grid gap-8 md:grid-cols-2">
     @for (game of games; track game.id; let i = $index) {
       <app-game-card class="animate-pop-in" [style.animation-delay.ms]="i * 100" [game]="game">
         <div class="emoji mt-4 flex gap-2 text-4xl" aria-hidden="true">

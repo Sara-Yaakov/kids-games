@@ -63,8 +63,18 @@ const SHAPES = [
           }
         </p>
 
-        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-          <button type="button" class="btn flex-1 py-4 text-xl" [class]="tone().btn" (click)="playAgain.emit()">
+        @if (nextLabel()) {
+          <button type="button" class="btn mt-6 w-full py-4 text-xl" [class]="tone().btn" (click)="next.emit()">
+            {{ nextLabel() }} <span aria-hidden="true">←</span>
+          </button>
+        }
+        <div class="flex flex-col gap-3 sm:flex-row" [class]="nextLabel() ? 'mt-3' : 'mt-6'">
+          <button
+            type="button"
+            class="btn flex-1 py-4 text-xl"
+            [class]="nextLabel() ? 'btn-paper' : tone().btn"
+            (click)="playAgain.emit()"
+          >
             עוד סיבוב
           </button>
           <a routerLink="/" class="btn btn-paper flex-1 py-4 text-xl">לכל המשחקים</a>
@@ -81,7 +91,10 @@ export class GameOver implements OnInit {
   readonly game = input.required<GameId>();
   readonly score = input.required<number>();
   readonly accuracy = input.required<number>();
+  /** When set, shows a primary button for games with levels. */
+  readonly nextLabel = input('');
   readonly playAgain = output();
+  readonly next = output();
 
   protected readonly shapes = SHAPES;
   protected readonly saveState = signal<SaveState>('saving');

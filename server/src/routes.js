@@ -5,14 +5,17 @@ import rateLimit from 'express-rate-limit';
 import { users, persist } from './db.js';
 import { signToken, requireAuth } from './auth.js';
 
-export const GAMES = ['animals', 'instruments', 'countries'];
+export const GAMES = ['animals', 'instruments', 'countries', 'opposites'];
 const MAX_POINTS_PER_ROUND = 1000;
 const USERNAME_RE = /^[\p{L}\p{N}_ -]{2,20}$/u;
+
+// Users created before a game existed have no entry for it.
+const withAllGames = (scores) => Object.fromEntries(GAMES.map((g) => [g, scores[g] ?? 0]));
 
 const publicUser = ({ id, username, scores }) => ({
   id,
   username,
-  scores,
+  scores: withAllGames(scores),
   total: Object.values(scores).reduce((a, b) => a + b, 0),
 });
 
@@ -38,7 +41,7 @@ api.post('/auth/register', authLimiter, async (req, res) => {
     id: randomUUID(),
     username,
     passwordHash: await bcrypt.hash(password, 10),
-    scores: Object.fromEntries(GAMES.map((g) => [g, 0])),
+    scores: withAllGames({}),
     createdAt: new Date().toISOString(),
   });
   res.status(201).json({ token: signToken(user), user: publicUser(user) });
@@ -67,7 +70,7 @@ api.post('/scores', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'ניקוד לא תקין' });
   }
 
-  user.scores[game] += points;
+  user.scores[game] = (user.scores[game] ?? 0) + points;
   await persist();
   res.json(publicUser(user));
 });

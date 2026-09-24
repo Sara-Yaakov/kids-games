@@ -112,6 +112,9 @@ body {
 @utility btn-magenta {
   @apply bg-magenta text-card;
 }
+@utility btn-ink {
+  @apply bg-ink text-card;
+}
 @utility btn-paper {
   @apply bg-card text-ink;
 }

@@ -1,4 +1,4 @@
-export type GameId = 'animals' | 'instruments' | 'countries';
+export type GameId = 'animals' | 'instruments' | 'countries' | 'opposites';
 
 export interface User {
   id: string;

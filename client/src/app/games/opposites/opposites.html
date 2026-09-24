@@ -1,0 +1,122 @@
+@if (level(); as lvl) {
+  <app-game-hud
+    title="הפוך על הפוך"
+    emoji="🙃"
+    tone="ink"
+    progressLabel="שלב {{ lvl.letter }} · שאלה {{ index() + 1 }} מתוך {{ total }}"
+    [score]="session.score()"
+    [streak]="session.streak()"
+    [current]="index() + (solved() ? 1 : 0)"
+    [total]="total"
+  />
+
+  <app-praise-toast
+    [message]="session.toast().message"
+    [tone]="session.toast().tone"
+    [key]="session.toast().key"
+    placement="low"
+  />
+
+  @if (session.finished()) {
+    <app-game-over
+      game="opposites"
+      [score]="session.score()"
+      [accuracy]="session.accuracy()"
+      [nextLabel]="nextLevel() ? 'לשלב ' + nextLevel()!.letter : ''"
+      (playAgain)="start(lvl)"
+      (next)="start(nextLevel()!)"
+    />
+  } @else {
+    @let q = question();
+    @for (i of [index()]; track i) {
+      <!-- The pair: prompt on one side, the answer slot on the other -->
+      <section class="mt-10 flex animate-pop-in items-stretch justify-center gap-3 sm:gap-6" aria-live="polite">
+        <div class="word-card panel bg-card">
+          <span class="emoji text-7xl sm:text-8xl">{{ q.prompt.emoji }}</span>
+          <span class="display mt-3 text-5xl sm:text-7xl">{{ q.prompt.text }}</span>
+        </div>
+
+        <div class="flip-mark" [class.done]="solved()" aria-hidden="true">⇄</div>
+
+        @if (solved()) {
+          <div class="word-card panel animate-flip-in bg-ink text-card">
+            <span class="emoji text-7xl sm:text-8xl">{{ q.answer.emoji }}</span>
+            <span class="display mt-3 text-5xl sm:text-7xl">{{ q.answer.text }}</span>
+          </div>
+        } @else {
+          <div class="word-card slot">
+            <span class="display text-8xl opacity-40">?</span>
+            <span class="mt-2 text-center text-sm font-semibold sm:text-base">מה ההפך?</span>
+          </div>
+        }
+      </section>
+
+      <section class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4" aria-label="תשובות">
+        @for (option of q.options; track option.text; let j = $index) {
+          @let isWrong = wrong().has(option.text);
+          @let isAnswer = solved() && option.text === q.answer.text;
+          <button
+            type="button"
+            class="btn animate-pop-in justify-start gap-4 px-5 py-4"
+            [class]="isAnswer ? 'btn-ink' : isWrong ? 'wrong btn-paper' : 'btn-paper'"
+            [class.animate-shake]="isWrong"
+            [disabled]="isWrong || (solved() && !isAnswer)"
+            [style.animation-delay.ms]="200 + j * 70"
+            (click)="choose(option, $any($event.currentTarget))"
+          >
+            <span class="emoji text-5xl">{{ option.emoji }}</span>
+            <span class="text-2xl sm:text-3xl">{{ option.text }}</span>
+          </button>
+        }
+      </section>
+    }
+  }
+} @else {
+  <!-- Level picker -->
+  <section class="animate-pop-in">
+    <span class="sticker bg-card">משחק 04</span>
+    <h1 class="display mt-4 text-7xl sm:text-9xl">הפוך על <span class="inline-block rotate-180">הפוך</span></h1>
+    <p class="mt-3 max-w-xl text-xl">
+      לכל מילה יש הפך. בכל שלב 8 מילים, ובכל פעם בוחרים את ההפך מתוך ארבע אפשרויות. מתחילים בקל ומתקדמים.
+    </p>
+  </section>
+
+  <section class="mt-10 grid gap-6 md:grid-cols-3" aria-label="שלבים">
+    @for (lvl of levels; track lvl.id; let i = $index) {
+      @let example = lvl.pairs[0];
+      <button
+        type="button"
+        class="level panel group flex animate-pop-in flex-col p-6 text-start"
+        [class]="levelStyles[i]"
+        [style.animation-delay.ms]="i * 100"
+        (click)="start(lvl)"
+      >
+        <div class="flex items-center justify-between">
+          <span class="display grid size-16 place-items-center rounded-full border-[3px] border-ink bg-card text-5xl">
+            {{ lvl.letter }}
+          </span>
+          <span class="sticker bg-card">{{ lvl.pairs.length }} זוגות</span>
+        </div>
+        <h2 class="display mt-5 text-5xl">שלב {{ lvl.letter }}: {{ lvl.title }}</h2>
+        <p class="mt-1 text-lg">{{ lvl.description }}</p>
+
+        <div class="mt-5 flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-ink/40 bg-card/60 px-3 py-3">
+          <span class="emoji text-3xl">{{ example[0].emoji }}</span>
+          <span class="text-xl font-bold">{{ example[0].text }}</span>
+          <span class="font-bold" aria-hidden="true">⇄</span>
+          <span class="text-xl font-bold">{{ example[1].text }}</span>
+          <span class="emoji text-3xl">{{ example[1].emoji }}</span>
+        </div>
+
+        <span class="mt-6 flex items-center justify-between text-lg font-bold">
+          להתחיל
+          <span
+            class="grid size-10 place-items-center rounded-full border-[3px] border-ink bg-ink text-card transition-transform group-hover:-translate-x-1"
+            aria-hidden="true"
+            >←</span
+          >
+        </span>
+      </button>
+    }
+  </section>
+}

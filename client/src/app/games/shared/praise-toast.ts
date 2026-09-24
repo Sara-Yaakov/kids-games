@@ -4,7 +4,12 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'app-praise-toast',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'pointer-events-none fixed inset-x-0 top-1/3 z-50 flex justify-center px-4', 'aria-live': 'polite' },
+  host: {
+    class: 'pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4',
+    'aria-live': 'polite',
+    '[style.top]': "placement() === 'middle' ? '33%' : null",
+    '[style.bottom]': "placement() === 'low' ? '12%' : null",
+  },
   template: `
     @for (k of [key()]; track k) {
       @if (message()) {
@@ -33,4 +38,6 @@ export class PraiseToast {
   readonly message = input('');
   readonly tone = input<'good' | 'bad'>('good');
   readonly key = input(0);
+  /** 'low' keeps the upper half of the screen visible. */
+  readonly placement = input<'middle' | 'low'>('middle');
 }
