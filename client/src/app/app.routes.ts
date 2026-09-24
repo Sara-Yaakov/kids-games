@@ -40,6 +40,11 @@ export const routes: Routes = [
         title: 'מסע סביב העולם | עולם החכמים',
         loadComponent: () => import('./games/countries/countries').then((m) => m.Countries),
       },
+      {
+        path: 'opposites',
+        title: 'הפוך על הפוך | עולם החכמים',
+        loadComponent: () => import('./games/opposites/opposites').then((m) => m.Opposites),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
