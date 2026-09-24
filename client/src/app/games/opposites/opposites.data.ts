@@ -71,7 +71,7 @@ export const LEVELS: Level[] = [
     id: 'c',
     letter: 'ג',
     title: 'אלופים',
-    description: 'מילים מופשטות לגילאי 9 ומעלה',
+    description: ' מילים מופשטות',
     pairs: [
       p('אופטימי', '🌈', 'פסימי', '🌧️'),
       p('נדיב', '🎁', 'קמצן', '🪙'),

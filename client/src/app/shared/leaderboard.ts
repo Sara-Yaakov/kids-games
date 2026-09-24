@@ -10,7 +10,7 @@ const PODIUM = ['bg-orange text-ink', 'bg-teal text-card', 'bg-magenta text-card
   template: `
     <section class="panel mx-auto max-w-2xl overflow-hidden bg-card">
       <header class="flex items-center justify-between border-b-[3px] border-ink bg-ink px-6 py-4 text-paper">
-        <h2 class="display text-5xl">היכל התהילה</h2>
+        <h2 class="display text-5xl">שחקנים מובילים</h2>
         <span class="emoji text-4xl" aria-hidden="true">🏆</span>
       </header>
 
