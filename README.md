@@ -28,18 +28,20 @@ The app runs at http://localhost:4200 and the API at http://localhost:3000.
 
 ## Production
 
+The app ships as a single Docker image: the server serves both the API and the built client.
+
 ```bash
-npm run build
-JWT_SECRET=<secret> NODE_ENV=production npm start
+docker build -t kids-games .
+docker run -p 3000:3000 -e JWT_SECRET=<secret> -v kids-games-data:/data kids-games
 ```
 
-The server serves both the API and the built client. Mount persistent storage for the data file.
+Deployed on [Railway](https://railway.com) from `main` (see `railway.json`), with a volume mounted at `/data`.
 
 | Variable | Default | |
 |----------|---------|---|
+| `JWT_SECRET` | none | Required |
 | `PORT` | `3000` | |
-| `JWT_SECRET` | none | Required in production |
-| `DB_FILE` | `server/data/db.json` | Path to the data file |
+| `DB_FILE` | `/data/db.json` in Docker | Path to the data file |
 
 ## API
 
